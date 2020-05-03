@@ -2,6 +2,10 @@
 
 GitHub App developed with React-Native
 
+### App Download
+
+https://capricorncd.github.io/githubApp/download
+
 ### Start
 
 ```
@@ -28,7 +32,7 @@ React Redux https://react-redux.js.org/
 
 WebView https://github.com/react-native-community/react-native-webview
 
-### ICONS
+### Icons
 
 https://github.com/oblador/react-native-vector-icons
 
