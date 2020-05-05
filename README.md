@@ -8,9 +8,9 @@ https://capricorncd.github.io/githubApp/download/index.html
 
 ### Screenshot
 
-<img src="./download/screenshot001.png" width="240" style="margin: 0 20px 20px 0"/>
+<img src="./download/screenshot001.png" width="320" style="margin: 0 20px 20px 0"/>
 
-<img src="./download/screenshot002.png" width="240"/>
+<img src="./download/screenshot002.png" width="320"/>
 
 ### Start
 
