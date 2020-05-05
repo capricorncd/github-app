@@ -17,8 +17,8 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* githubAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* githubAppTests.m */; };
 		4192990FF70C55389C652867 /* libPods-githubApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCA2029A975271A87138171B /* libPods-githubApp-tvOSTests.a */; };
-		651371CF245EFA8900E33D14 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 651371CD245EFA8900E33D14 /* main.jsbundle */; };
-		651371D0245EFA8900E33D14 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 651371CE245EFA8900E33D14 /* assets */; };
+		65C9AB5E24616649005166E1 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 65C9AB5C24616649005166E1 /* main.jsbundle */; };
+		65C9AB5F24616649005166E1 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 65C9AB5D24616649005166E1 /* assets */; };
 		8A22578F330E0E94180F529A /* libPods-githubApp-githubAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D9FF2EE89A45C7D1195450E /* libPods-githubApp-githubAppTests.a */; };
 		8D841BF0926F25B60BE4C192 /* libPods-githubApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C894412833852C486F7D24 /* libPods-githubApp-tvOS.a */; };
 		AA950C25951E31D64296952D /* libPods-githubApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7414708083BB48863F5E0A59 /* libPods-githubApp.a */; };
@@ -57,8 +57,8 @@
 		2D02E47B1E0B4A5D006451C7 /* githubApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "githubApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* githubApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "githubApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46ECB2E22DD234C1AD064275 /* Pods-githubApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-githubApp.debug.xcconfig"; path = "Target Support Files/Pods-githubApp/Pods-githubApp.debug.xcconfig"; sourceTree = "<group>"; };
-		651371CD245EFA8900E33D14 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
-		651371CE245EFA8900E33D14 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
+		65C9AB5C24616649005166E1 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../dist/main.jsbundle; sourceTree = "<group>"; };
+		65C9AB5D24616649005166E1 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../dist/assets; sourceTree = "<group>"; };
 		7414708083BB48863F5E0A59 /* libPods-githubApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-githubApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ED6BF1F61F5B6FE2766D161 /* Pods-githubApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-githubApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-githubApp-tvOSTests/Pods-githubApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		82699D49975F32D00A5AF234 /* Pods-githubApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-githubApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-githubApp-tvOS/Pods-githubApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -128,8 +128,8 @@
 		13B07FAE1A68108700A75B9A /* githubApp */ = {
 			isa = PBXGroup;
 			children = (
-				651371CE245EFA8900E33D14 /* assets */,
-				651371CD245EFA8900E33D14 /* main.jsbundle */,
+				65C9AB5D24616649005166E1 /* assets */,
+				65C9AB5C24616649005166E1 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -353,8 +353,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				651371CF245EFA8900E33D14 /* main.jsbundle in Resources */,
-				651371D0245EFA8900E33D14 /* assets in Resources */,
+				65C9AB5E24616649005166E1 /* main.jsbundle in Resources */,
+				65C9AB5F24616649005166E1 /* assets in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
