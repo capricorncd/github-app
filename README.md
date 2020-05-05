@@ -4,7 +4,13 @@ GitHub App developed with React-Native
 
 ### App Download
 
-https://capricorncd.github.io/githubApp/download
+https://capricorncd.github.io/githubApp/download/index.html
+
+### Screenshot
+
+<img src="./download/screenshot001.png" width="240" style="margin: 0 20px 20px 0"/>
+
+<img src="./download/screenshot002.png" width="240"/>
 
 ### Start
 
@@ -34,7 +40,7 @@ WebView https://github.com/react-native-community/react-native-webview
 
 ### Icons
 
-https://github.com/oblador/react-native-vector-icons
+Usage https://github.com/oblador/react-native-vector-icons
 
-https://oblador.github.io/react-native-vector-icons/
+Icons https://oblador.github.io/react-native-vector-icons/
 

@@ -5,7 +5,7 @@
  */
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import { BACKGROUND_COLOR, GITHUB_URL_API } from '../configs/index'
+import { GLOBAL_BACKGROUND_COLOR, GITHUB_URL_API } from '../configs/index'
 import appUtils from '../utils'
 import RepositoryItem from './RepositoryItem'
 import FlatListComponent from './FlatListComponent'
@@ -15,7 +15,7 @@ class RepositoryItemList extends Component {
     constructor (props) {
         super(props)
         const { route } = this.props
-        this.keyword = route.name.toLowerCase().trim().replace(/\s/g, '-')
+        this.keyword = appUtils.toGithubQueryKeyword(route.name)
         this.state = {
             list: [],
             page: 1
@@ -35,7 +35,7 @@ class RepositoryItemList extends Component {
                         return {
                             id: item.id,
                             full_name: item.full_name,
-                            html_url: item.html_url,
+                            url: item.html_url,
                             description: item.description,
                             forks: item.forks,
                             watchers: item.watchers,
@@ -47,7 +47,7 @@ class RepositoryItemList extends Component {
                             avatar: item.owner.avatar_url + '&size=64'
                         }
                     })
-                    console.log(list)
+                    // console.log(list)
                     let oldList = this.state.list
 
                     list.forEach(item => {
@@ -60,8 +60,7 @@ class RepositoryItemList extends Component {
                     this.setState({
                         page: ++page,
                         list: isLoadMore ? oldList.concat(list) : list
-                    })
-                    resolve()
+                    }, resolve)
                 } else {
                     throw new Error(`RepositoryItemList.getList()'s response items is undefined`)
                 }
@@ -72,7 +71,7 @@ class RepositoryItemList extends Component {
     renderItem (data) {
         const { navigation: { navigate } } = this.props
         return <RepositoryItem
-            data={data.item}
+            data={data}
             onClick={_ => {
                 navigate('Detail', { ...data })
             }}
@@ -80,16 +79,18 @@ class RepositoryItemList extends Component {
     }
 
     render () {
-        const { theme } = this.props
+        const { theme, route } = this.props
+        console.log('route.name change', route)
+        this.keyword = appUtils.toGithubQueryKeyword(route.name)
         return (
-            <View style={{ flex: 1, backgroundColor: BACKGROUND_COLOR }}>
+            <View style={{ flex: 1, backgroundColor: GLOBAL_BACKGROUND_COLOR }}>
                 <FlatListComponent
                     list={this.state.list}
                     keyExtractor={item => item.id + ''}
                     theme={theme}
                     onRefresh={_ => this.getList()}
                     onLoadMore={_ => this.getList(true)}
-                    renderItem={data => this.renderItem(data)}
+                    renderItem={data => this.renderItem(data.item)}
                 />
             </View>
         )

@@ -8,6 +8,7 @@ import { View, Text, StyleSheet } from 'react-native'
 
 export default class Profile extends Component {
     render () {
+        console.log('Profile', this.props)
         return (
             <View style={styles.wrapper}>
                 <Text>Profile</Text>

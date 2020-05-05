@@ -4,12 +4,12 @@
  * Date: 2020-05-03 08:28
  */
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, RefreshControl, FlatList, ActivityIndicator } from 'react-native'
-
+import { Alert, View, Text, StyleSheet, RefreshControl, FlatList, ActivityIndicator } from 'react-native'
+// refresh state
 const REFRESH_START = 'REFRESH_START'
 const REFRESH_SUCCESS = 'REFRESH_SUCCESS'
 const REFRESH_FAILED = 'REFRESH_FAILED'
-
+// load more state
 const LOAD_MORE_START = 'LOAD_MORE_START'
 const LOAD_MORE_SUCCESS = 'LOAD_MORE_SUCCESS'
 const LOAD_MORE_FAILED = 'LOAD_MORE_FAILED'
@@ -36,7 +36,7 @@ export default class FlatListComponent extends Component {
             this.setState({
                 refreshState: REFRESH_FAILED
             })
-            alert(err.message)
+            Alert.alert(err.message)
         })
     }
 
@@ -53,7 +53,7 @@ export default class FlatListComponent extends Component {
             this.setState({
                 loadMoreState: LOAD_MORE_FAILED
             })
-            alert(err.message)
+            Alert.alert(err.message)
         })
     }
 
@@ -76,12 +76,14 @@ export default class FlatListComponent extends Component {
                     />
                 }
                 ListFooterComponent={_ => {
-                    return this.state.loadMoreState === LOAD_MORE_START ? null : <View style={styles.genIndicator}>
-                        <ActivityIndicator
-                            style={styles.activityIndicator}
-                        />
-                        <Text>Loading</Text>
-                    </View>
+                    return this.state.loadMoreState === LOAD_MORE_START
+                        ? null
+                        : <View style={styles.wrapper}>
+                            <ActivityIndicator
+                                style={styles.activityIndicator}
+                            />
+                            <Text>Loading</Text>
+                        </View>
                 }}
                 onEndReached={_ => {
                     console.log('======onEndReached======')
@@ -97,7 +99,7 @@ export default class FlatListComponent extends Component {
 }
 
 const styles = StyleSheet.create({
-    genIndicator: {
+    wrapper: {
         alignItems: 'center'
     },
     activityIndicator: {

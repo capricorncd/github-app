@@ -3,7 +3,7 @@
  * https://github.com/capricorncd
  * Date: 2020-05-02 14:17
  */
-import { AsyncStorage } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import { STORAGE_CACHE_MILLISECOND } from '../configs/index'
 
 const storeUtils = {
@@ -44,7 +44,11 @@ const storeUtils = {
                     resolve(list)
                 } else {
                     let res = await AsyncStorage.getItem(key)
-                    resolve(getCacheData(JSON.parse(res)))
+                    if (res) {
+                        resolve(getCacheData(JSON.parse(res)))
+                    } else {
+                        reject(new Error(`storeUtils.get(${key}) is ${res}`))
+                    }
                 }
             } catch (e) {
                 console.error(e)
@@ -71,7 +75,7 @@ const storeUtils = {
  */
 function getCacheData (obj) {
     // has cache time limit
-    if (!obj && obj.hasOwnProperty('cacheTimeLimit')) {
+    if (obj && obj.hasOwnProperty('cacheTimeLimit')) {
         return +new Date() - obj.cacheTimeLimit > STORAGE_CACHE_MILLISECOND
             ? null : obj.data
     }

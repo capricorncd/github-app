@@ -4,14 +4,15 @@
  * Date: 2020-05-03 13:57
  */
 import React, { Component } from 'react'
-import { WebView} from 'react-native-webview'
+import { WebView } from 'react-native-webview'
 
 export default class Detail extends Component {
     render () {
-        const { item: data } = this.props.route.params
+        console.log('Detail', this.props)
+        const data = this.props.route.params
         return (
             <WebView
-                source={{uri: data.html_url}}
+                source={{ uri: data.url }}
                 startInLoadingState={true}
             />
         )

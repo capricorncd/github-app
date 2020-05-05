@@ -3,15 +3,10 @@
  * https://github.com/capricorncd
  * Date: 2020-05-03 16:30
  */
-const LANGUAGES = [
-    'CSS',
-    'HTML',
-    'Java',
-    'JavaScript',
-    'Shell',
-    'TypeScript',
-    'Vue',
-    'Unknown languages',
+// annual league table
+const DL_ANNUAL_LEAGUE_TABLE = ['Java', 'C', 'Python', 'C++', 'C#', 'Visual Basic', 'JavaScript', 'PHP', 'SQL', 'R']
+// all development languages
+const DEVELOPMENT_LANGUAGES = [
     '1C Enterprise',
     '4D',
     'ABAP',
@@ -59,7 +54,6 @@ const LANGUAGES = [
     'Boo',
     'Brainfuck',
     'Brightscript',
-    'Zeek',
     'C',
     'C#',
     'C++',
@@ -523,7 +517,6 @@ const LANGUAGES = [
     'Vim script',
     'Vim Snippet',
     'Visual Basic .NET',
-    'Visual Basic .NET',
     'Volt',
     'Vue',
     'Wavefront Material',
@@ -568,4 +561,29 @@ const LANGUAGES = [
     'Zimpl'
 ]
 
-export default LANGUAGES
+function format () {
+    const initials = []
+    let tempColumn, tempInitial
+    return DEVELOPMENT_LANGUAGES.map(item => {
+        tempColumn = null
+        tempInitial = item[0].toUpperCase()
+        if (!initials.includes(tempInitial) && /[A-Z]/.test(tempInitial)) {
+            tempColumn = tempInitial
+            initials.push(tempInitial)
+        }
+        return {
+            column: tempColumn,
+            text: item,
+            isChecked: false,
+            order: 0
+        }
+    })
+}
+
+const devLanguages = format()
+
+export {
+    DEVELOPMENT_LANGUAGES,
+    devLanguages,
+    DL_ANNUAL_LEAGUE_TABLE
+}

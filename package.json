@@ -1,6 +1,6 @@
 {
   "name": "githubApp",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": false,
   "url": "https://github.com/capricorncd/githubApp",
   "author": "Capricorncd",
@@ -9,9 +9,11 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "bundle-ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --platform ios --dev false --bundle-output ./dist/main.jsbundle --assets-dest ./dist"
   },
   "dependencies": {
+    "@react-native-community/clipboard": "^1.2.2",
     "react": "16.11.0",
     "react-native": "^0.62.2",
     "react-native-vector-icons": "^6.6.0"
@@ -19,12 +21,14 @@
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/runtime": "^7.6.2",
+    "@react-native-community/async-storage": "^1.10.0",
     "@react-native-community/eslint-config": "^0.0.5",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/material-top-tabs": "^5.1.14",
     "@react-navigation/native": "^5.2.1",
     "@react-navigation/stack": "^5.2.16",
     "babel-jest": "^24.9.0",
+    "deprecated-react-native-listview": "0.0.6",
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.58.0",

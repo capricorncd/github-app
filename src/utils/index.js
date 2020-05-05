@@ -135,6 +135,23 @@ const appUtils = {
             console.error(e)
         }
         return str
+    },
+    /**
+     * array equals
+     * @param arr1
+     * @param arr2
+     * @returns {boolean}
+     */
+    equals (arr1, arr2) {
+        let len = arr1.length
+        if (arr2.length !== len) return false
+        for (let i = 0; i < len; i++) {
+            if (arr1[i] !== arr2[i]) return false
+        }
+        return true
+    },
+    toGithubQueryKeyword (str) {
+        return str ? str.toLowerCase().trim().replace(/\s/g, '-') : str
     }
 }
 

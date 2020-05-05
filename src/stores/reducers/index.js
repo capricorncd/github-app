@@ -5,7 +5,9 @@
  */
 import { combineReducers } from 'redux'
 import theme from './theme'
+import devLanguages from './devLanguages'
 
 export default combineReducers({
-    theme
+    theme,
+    devLanguages
 })
