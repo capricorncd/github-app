@@ -77,20 +77,17 @@ class DLSelection extends Component {
         }
 
         // Optimize render that development language CheckBox
-        let RENDER_NUMBER = 50
-        let count = 1
         this.setState({
-            elList: result.slice(0, RENDER_NUMBER)
+            elList: result.slice(0, 50)
         })
-
+        let total = result.length
+        let currentLen = 50
         let timer = setInterval(() => {
-            count++
+            currentLen += 100
             this.setState({
-                elList: result.slice(0, count * RENDER_NUMBER)
+                elList: result.slice(0, Math.min(currentLen, total))
             })
-            if (count * RENDER_NUMBER > result.length) {
-                clearInterval(timer)
-            }
+            if (currentLen > total) clearInterval(timer)
         }, 300)
     }
 
