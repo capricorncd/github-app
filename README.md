@@ -29,6 +29,30 @@ npm run ios
 npm run android
 ```
 
+### Build ios
+
+1.bundle js files
+
+```
+npm run bundle-ios
+```
+
+2.Xcode: 
+
+    2.1 Add `js bundle files` to `GithubApp` project
+
+    2.2 Build
+    
+### Build android
+
+```
+cd android
+```
+
+```
+./gradlew assembleRelease
+```
+
 ### Documents
 
 React Native https://reactnative.dev/
