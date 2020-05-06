@@ -5,6 +5,7 @@
  */
 import * as React from 'react'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
+import { StatusBar } from 'react-native'
 import { connect } from 'react-redux'
 import { COLORS_WHITE, GLOBAL_BACKGROUND_COLOR } from '../configs/index'
 
@@ -27,6 +28,7 @@ class NavigationBar extends React.Component {
         return (
             <NavigationContainer
                 theme={themeOptions}>
+                <StatusBar barStyle="light-content"/>
                 {children}
             </NavigationContainer>
         )
