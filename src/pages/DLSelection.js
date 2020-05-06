@@ -5,7 +5,7 @@
  */
 import React, { Component } from 'react'
 import { View, Text, SafeAreaView, ScrollView } from 'react-native'
-import { devLanguages } from '../configs/developmentLanguages'
+import { originalDevLanguages } from '../configs/developmentLanguages'
 import CheckBox, { checkBoxStyles } from '../components/CheckBox'
 import storeUtils from '../stores/storeUtils'
 import { COLORS_GRAY_LIGHT, GLOBAL_BACKGROUND_COLOR, DEV_LANGUAGES_STORAGE_KEY } from '../configs'
@@ -38,7 +38,7 @@ class DLSelection extends Component {
             console.log('Error', err)
             this.setState({
                 // after storeUtils.get()
-                devLanguages: devLanguages
+                devLanguages: [...originalDevLanguages]
             })
         })
     }

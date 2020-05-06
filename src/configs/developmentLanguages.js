@@ -580,10 +580,10 @@ function format () {
     })
 }
 
-const devLanguages = format()
+const originalDevLanguages = format()
 
 export {
     DEVELOPMENT_LANGUAGES,
-    devLanguages,
+    originalDevLanguages,
     DL_ANNUAL_LEAGUE_TABLE
 }

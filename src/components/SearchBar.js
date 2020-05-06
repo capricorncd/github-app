@@ -4,10 +4,11 @@
  * Date: 2020-05-05 21:52
  */
 import React, { Component } from 'react'
-import { View, TextInput, Text, TouchableOpacity, ScrollView, SectionList, Dimensions } from 'react-native'
+import { View, TextInput, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import Icons from './Icons'
 import { COLORS_BORDER, COLORS_GRAY_LIGHT, COLORS_PRIMARY, COLORS_WHITE, DEV_LANGUAGES_STORAGE_KEY } from '../configs'
 import storeUtils from '../stores/storeUtils'
+import { originalDevLanguages } from '../configs/developmentLanguages'
 
 export const SEARCH_WRAPPER_HEIGHT = 48
 const INPUT_HEIGHT = 32
@@ -15,12 +16,12 @@ const DEFAULT_PLACEHOLDER = 'Search or jump to…'
 
 const defaultBarStyles = {
     position: 'absolute',
-    zIndex: 10,
+    zIndex: 9,
     paddingLeft: 10,
     paddingRight: 10,
     height: SEARCH_WRAPPER_HEIGHT,
-    flexDirection: 'row',
-    alignItems: 'center'
+    width: '100%',
+    justifyContent: 'center'
 }
 
 const defaultInputStyles = {
@@ -28,9 +29,13 @@ const defaultInputStyles = {
     width: '100%',
     paddingLeft: 8,
     paddingRight: 40,
+    paddingTop: 0,
+    paddingBottom: 0,
     borderWidth: 0.5,
     borderRadius: 4
 }
+
+const { height, width } = Dimensions.get('window')
 
 export default class SearchBar extends Component {
     constructor (props) {
@@ -54,6 +59,7 @@ export default class SearchBar extends Component {
             this.props.onInitEnd(res)
         }).catch(err => {
             console.log('Error', err)
+            this.devLanguages = [...originalDevLanguages]
         })
     }
 
@@ -72,6 +78,9 @@ export default class SearchBar extends Component {
         })
         if (isFocus && this.textInput) {
             this.textInput.clear()
+            this.setState({
+                list: []
+            })
         }
     }
 
@@ -87,6 +96,9 @@ export default class SearchBar extends Component {
 
     render () {
         const { theme, style, inputStyles, placeholder, placeholderTextColor } = this.props
+
+        // let isEmptyList = this.state.list.length === 0
+
         const barStyles = {
             ...defaultBarStyles,
             ...style,
@@ -97,50 +109,52 @@ export default class SearchBar extends Component {
             ...inputStyles,
             backgroundColor: this.state.isFocus ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.2)'
         }
+
         return (
-            <View style={barStyles}>
-                <TextInput
-                    ref={el => this.textInput = el}
-                    style={textInputStyles}
-                    onChangeText={value => this.handleChange(value)}
-                    value={this.keyword}
-                    onBlur={() => this.onFocus(false)}
-                    onFocus={() => this.onFocus(true)}
-                    placeholder={placeholder || DEFAULT_PLACEHOLDER}
-                    placeholderTextColor={placeholderTextColor || COLORS_GRAY_LIGHT}
-                    autoCapitalize="none"
-                    autoFocus={true}
-                />
-                <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        top: (SEARCH_WRAPPER_HEIGHT - INPUT_HEIGHT) / 2,
-                        right: 10,
-                        height: INPUT_HEIGHT,
-                        width: INPUT_HEIGHT + 12,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <Icons
-                        name={'search'}
-                        style={{
-                            marginTop: 2,
-                            fontSize: 24,
-                            color: COLORS_PRIMARY
-                        }}
+            <>
+                <View style={barStyles}>
+                    <TextInput
+                        ref={el => this.textInput = el}
+                        style={textInputStyles}
+                        onChangeText={value => this.handleChange(value)}
+                        value={this.keyword}
+                        onBlur={() => this.onFocus(false)}
+                        onFocus={() => this.onFocus(true)}
+                        placeholder={placeholder || DEFAULT_PLACEHOLDER}
+                        placeholderTextColor={placeholderTextColor || COLORS_GRAY_LIGHT}
+                        autoCapitalize="none"
+                        autoFocus={true}
                     />
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{
+                            position: 'absolute',
+                            zIndex: 1,
+                            top: (SEARCH_WRAPPER_HEIGHT - INPUT_HEIGHT) / 2,
+                            right: 10,
+                            height: INPUT_HEIGHT,
+                            width: INPUT_HEIGHT + 12,
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Icons
+                            name={'search'}
+                            style={{
+                                marginTop: 2,
+                                fontSize: 24,
+                                color: COLORS_PRIMARY
+                            }}
+                        />
+                    </TouchableOpacity>
+                </View>
                 <ResultList
                     list={this.state.list}
                     onSelect={item => this.handelPress(item)}
                 />
-            </View>
+            </>
         )
     }
 }
-
-const { height, width } = Dimensions.get('window')
 
 class ResultList extends Component {
     createItems (list) {

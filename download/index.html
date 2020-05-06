@@ -73,36 +73,18 @@
         <p>Github</p>
         <p>with React-Native</p>
     </div>
-    <div class="download"></div>
-    <div><a href="https://github.com/capricorncd/githubApp" target="_blank">Project Source</a> </div>
+    <div class="download">
+        <a class="btn" href="./github_app_android.apk" target="_blank">Android Download</a>
+    </div>
+    <div><a href="https://github.com/capricorncd/githubApp" target="_blank">Project Source</a> v0.2.1</div>
     <div class="copy-right">© <span class="years"></span> <a href="https://github.com/capricorncd" target="_blank">Capricorncd</a>.</div>
 </div>
 
 <script>
     (function () {
-        const files = {
-            Android: [
-                'android_v0.0.1.apk',
-                'android_v0.1.0.apk'
-            ],
-            Ios: []
-        }
         // query selector
         function $ (selector) {
             return document.querySelector(selector);
-        }
-        // create buttons
-        function createBtn () {
-            let html = ''
-            let btn = '<a class="btn" href="./{fileName}" target="_blank">{fileType} download</a>';
-            let list;
-            for (let key in files) {
-                list = files[key];
-                if (list.length > 0) {
-                    html += btn.replace(/\{fileName\}/g, list.pop()).replace(/\{fileType\}/g, key);
-                }
-            }
-            $('.download').innerHTML = html;
         }
         // init copy right years
         function initCopyRightYears () {
@@ -115,7 +97,6 @@
         }
         // init
         window.addEventListener('load', function () {
-            createBtn();
             initCopyRightYears()
         })
     }())

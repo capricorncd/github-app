@@ -75,6 +75,10 @@ const ICONS = {
     meh: {
         Icon: AntDesign,
         name: 'meh'
+    },
+    close: {
+        Icon: AntDesign,
+        name: 'close'
     }
 }
 
