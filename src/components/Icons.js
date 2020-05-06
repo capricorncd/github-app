@@ -79,6 +79,10 @@ const ICONS = {
     close: {
         Icon: AntDesign,
         name: 'close'
+    },
+    trending: {
+        Icon: AntDesign,
+        name: 'areachart'
     }
 }
 

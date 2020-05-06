@@ -6,6 +6,11 @@
 /** Settings items */
 const SETTINGS_ITEMS = [
     {
+        text: 'Trending',
+        name: 'trending',
+        url: 'https://github.com/trending'
+    },
+    {
         title: 'Development Language',
         text: 'Selection',
         name: 'selection',
