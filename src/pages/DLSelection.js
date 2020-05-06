@@ -20,33 +20,31 @@ class DLSelection extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            devLanguages: []
+            elList: []
         }
+        this.devLanguages = []
         this.originalSelectedKeys = []
-        this.getDevLanguages()
+        this.initDevLanguages(this.createItems.bind(this))
     }
 
-    getDevLanguages () {
+    initDevLanguages (callback) {
         storeUtils.get(DEV_LANGUAGES_STORAGE_KEY).then(res => {
-            this.setState({
-                devLanguages: res
-            })
+            this.devLanguages = res
+            callback()
             this.originalSelectedKeys = res.filter(item => item.isChecked)
                 .sort((a, b) => a.order - b.order)
                 .map(item => item.text)
         }).catch(err => {
             console.log('Error', err)
-            this.setState({
-                // after storeUtils.get()
-                devLanguages: [...originalDevLanguages]
-            })
+            this.devLanguages = [...originalDevLanguages]
+            callback()
         })
     }
 
     createItems () {
         const result = []
         let index = 0
-        this.state.devLanguages.forEach((item, i) => {
+        this.devLanguages.forEach((item, i) => {
             // grouping
             if (item.column) {
                 // last checkbox item check
@@ -77,20 +75,35 @@ class DLSelection extends Component {
         if (index % 2 === 1) {
             result.push(<View key={index + 'LastSpaceItem'} style={checkBoxStyles.wrapper}/>)
         }
-        return result
+
+        // Optimize render that development language CheckBox
+        let RENDER_NUMBER = 50
+        let count = 1
+        this.setState({
+            elList: result.slice(0, RENDER_NUMBER)
+        })
+
+        let timer = setInterval(() => {
+            count++
+            this.setState({
+                elList: result.slice(0, count * RENDER_NUMBER)
+            })
+            if (count * RENDER_NUMBER > result.length) {
+                clearInterval(timer)
+            }
+        }, 300)
     }
 
     handleChange (data, i) {
-        this.state.devLanguages[i] = data
-        // storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, this.state.devLanguages).catch(console.log)
+        this.devLanguages[i] = data
     }
 
     componentWillUnmount () {
-        let updateKeys = this.state.devLanguages.filter(item => item.isChecked)
+        let updateKeys = this.devLanguages.filter(item => item.isChecked)
             .sort((a, b) => a.order - b.order)
             .map(item => item.text)
         if (!appUtils.equals(updateKeys, this.originalSelectedKeys)) {
-            storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, this.state.devLanguages).catch(console.log)
+            storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, this.devLanguages).catch(console.log)
             this.props.changeDevLangKeys(updateKeys)
         }
     }
@@ -102,7 +115,7 @@ class DLSelection extends Component {
                     <View
                         style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap' }}
                     >
-                        {this.createItems()}
+                        {this.state.elList}
                     </View>
                 </ScrollView>
             </SafeAreaView>
