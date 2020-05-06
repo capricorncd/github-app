@@ -411,6 +411,8 @@ const DEVELOPMENT_LANGUAGES = [
     'RDoc',
     'Readline Config',
     'REALbasic',
+    'React',
+    'React Native',
     'Reason',
     'Rebol',
     'Red',

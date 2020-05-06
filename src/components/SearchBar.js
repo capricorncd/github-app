@@ -6,7 +6,13 @@
 import React, { Component } from 'react'
 import { View, TextInput, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import Icons from './Icons'
-import { COLORS_BORDER, COLORS_GRAY_LIGHT, COLORS_PRIMARY, COLORS_WHITE, DEV_LANGUAGES_STORAGE_KEY } from '../configs'
+import {
+    COLORS_BORDER,
+    COLORS_GRAY_LIGHT,
+    COLORS_PRIMARY,
+    COLORS_WHITE,
+    DEV_LANGUAGES_STORAGE_KEY
+} from '../configs'
 import storeUtils from '../stores/storeUtils'
 import { originalDevLanguages } from '../configs/developmentLanguages'
 
@@ -184,23 +190,25 @@ class ResultList extends Component {
         let isEmpty = !list || list.length === 0
         return isEmpty ? null : <View
             style={{
-                maxHeight: height / 4,
                 position: 'absolute',
                 zIndex: 10,
                 top: SEARCH_WRAPPER_HEIGHT - 4,
-                left: 10,
-                right: 10,
-                shadowColor: COLORS_PRIMARY,
-                shadowOffset: { height: 5 },
-                shadowOpacity: 0.2,
-                borderBottomLeftRadius: 4,
-                borderBottomRightRadius: 4,
-                backgroundColor: COLORS_WHITE,
-                paddingBottom: 4
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.4)'
             }}
         >
             <ScrollView
-                style={{}}
+                style={{
+                    marginLeft: 10,
+                    marginRight: 10,
+                    maxHeight: height / 4,
+                    backgroundColor: COLORS_WHITE,
+                    borderBottomLeftRadius: 4,
+                    borderBottomRightRadius: 4,
+                    paddingBottom: 4
+                }}
             >
                 {this.createItems(list)}
             </ScrollView>
