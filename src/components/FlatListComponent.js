@@ -76,7 +76,7 @@ export default class FlatListComponent extends Component {
                     />
                 }
                 ListFooterComponent={_ => {
-                    return this.state.loadMoreState === LOAD_MORE_START
+                    return this.state.loadMoreState === LOAD_MORE_START || list.length === 0
                         ? null
                         : <View style={styles.wrapper}>
                             <ActivityIndicator

@@ -4,20 +4,20 @@
  * Date: 2020-05-02 17:29
  */
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { GLOBAL_BACKGROUND_COLOR, GITHUB_URL_API } from '../configs/index'
 import appUtils from '../utils'
 import RepositoryItem from './RepositoryItem'
 import FlatListComponent from './FlatListComponent'
 import { connect } from 'react-redux'
+import { formatItemData } from './RepositoryItemList'
 
-class RepositoryItemList extends Component {
+class SearchResultList extends Component {
     constructor (props) {
         super(props)
-        const { route } = this.props
-        this.keyword = appUtils.toGithubQueryKeyword(route.name)
+        this.keyword = appUtils.toGithubQueryKeyword(props.keyword)
         this.isKeywordChanged = false
-            this.state = {
+        this.state = {
             list: [],
             page: 1
         }
@@ -29,9 +29,18 @@ class RepositoryItemList extends Component {
 
     getList (isLoadMore) {
         return new Promise((resolve, reject) => {
+            // keyword change check
+            if (!this.keyword) {
+                this.setState({
+                    list: []
+                }, resolve)
+                return
+            }
+            // page and reset isKeywordChanged
             let page = this.isKeywordChanged ? 1 : this.state.page
             let oldList = this.isKeywordChanged ? [] : this.state.list
             this.isKeywordChanged = false
+
             appUtils.fetch(GITHUB_URL_API, { q: this.keyword, sort: 'star', page }).then(res => {
                 if (res.items) {
                     let list = formatItemData(res, oldList)
@@ -40,7 +49,7 @@ class RepositoryItemList extends Component {
                         list: isLoadMore ? oldList.concat(list) : list
                     }, resolve)
                 } else {
-                    throw new Error(`RepositoryItemList.getList()'s response items is undefined`)
+                    throw new Error(`SearchResultList.getList()'s response items is undefined`)
                 }
             }).catch(reject)
         })
@@ -57,12 +66,21 @@ class RepositoryItemList extends Component {
     }
 
     render () {
-        const { theme, route } = this.props
-        let newKeyword = appUtils.toGithubQueryKeyword(route.name)
-        this.isKeywordChanged = this.keyword !== newKeyword
+        const { theme, keyword, style } = this.props
+        let newKeyword = appUtils.toGithubQueryKeyword(keyword)
+        this.isKeywordChanged = newKeyword !== this.keyword
         this.keyword = newKeyword
+        if (this.isKeywordChanged) {
+            this.getList()
+        }
+        console.log('isKeywordChanged', this.isKeywordChanged)
         return (
-            <View style={{ flex: 1, backgroundColor: GLOBAL_BACKGROUND_COLOR }}>
+            <View
+                style={{
+                    flex: 1,
+                    backgroundColor: GLOBAL_BACKGROUND_COLOR,
+                    ...style
+                }}>
                 <FlatListComponent
                     list={this.state.list}
                     keyExtractor={item => item.id + ''}
@@ -76,44 +94,8 @@ class RepositoryItemList extends Component {
     }
 }
 
-/**
- * format list item data
- * @param res
- * @param oldList
- * @returns {*}
- */
-export function formatItemData (res, oldList) {
-    let list = res.items.map(item => {
-        return {
-            id: item.id,
-            full_name: item.full_name,
-            url: item.html_url,
-            description: item.description,
-            forks: item.forks,
-            watchers: item.watchers,
-            watchers_count: item.watchers_count,
-            stargazers_count: item.stargazers_count,
-            forks_count: item.forks_count,
-            language: item.language,
-            updated_at: item.updated_at,
-            avatar: item.owner.avatar_url + '&size=64'
-        }
-    })
-
-    // duplicate removal
-    if (oldList.length > 0) {
-        list.forEach(item => {
-            let index = oldList.findIndex(oldItem => {
-                return oldItem.id === item.id
-            })
-            if (index !== -1) oldList.splice(index, 1)
-        })
-    }
-    return list
-}
-
 const mapStateToProps = state => ({
     theme: state.theme
 })
 
-export default connect(mapStateToProps)(RepositoryItemList)
+export default connect(mapStateToProps)(SearchResultList)
