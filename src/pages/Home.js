@@ -37,7 +37,7 @@ class Home extends Component {
     }
 
     createTabScreen (list) {
-        console.log(list)
+        // console.log(list)
         return list.map(item => {
             return <Tab.Screen name={item} key={item} component={RepositoryItemList}/>
         })

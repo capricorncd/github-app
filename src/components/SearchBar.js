@@ -4,7 +4,7 @@
  * Date: 2020-05-05 21:52
  */
 import React, { Component } from 'react'
-import { View, TextInput, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
+import { View, TextInput, Text, TouchableOpacity, ScrollView, Platform, Keyboard, StyleSheet } from 'react-native'
 import Icons from './Icons'
 import {
     COLORS_BORDER,
@@ -41,8 +41,6 @@ const defaultInputStyles = {
     borderRadius: 4
 }
 
-const { height, width } = Dimensions.get('window')
-
 export default class SearchBar extends Component {
     constructor (props) {
         super(props)
@@ -53,6 +51,8 @@ export default class SearchBar extends Component {
         this.keyword = props.keyword || ''
         this.devLanguages = []
         this._initDevLanguages()
+        this.keyboardHandler = this._keyboardHandler.bind(this)
+        this.iosKeyboardHeight = 0
     }
 
     /**
@@ -67,6 +67,20 @@ export default class SearchBar extends Component {
             console.log('Error', err)
             this.devLanguages = [...originalDevLanguages]
         })
+    }
+
+    componentDidMount () {
+        Keyboard.addListener('keyboardDidShow', this.keyboardHandler)
+    }
+
+    componentWillUnmount () {
+        Keyboard.removeListener('keyboardDidShow', this.keyboardHandler)
+    }
+
+    _keyboardHandler (e) {
+        if (!this.iosKeyboardHeight) {
+            this.iosKeyboardHeight = e.endCoordinates.height
+        }
     }
 
     handleChange (value) {
@@ -103,8 +117,6 @@ export default class SearchBar extends Component {
     render () {
         const { theme, style, inputStyles, placeholder, placeholderTextColor } = this.props
 
-        // let isEmptyList = this.state.list.length === 0
-
         const barStyles = {
             ...defaultBarStyles,
             ...style,
@@ -132,29 +144,17 @@ export default class SearchBar extends Component {
                         autoFocus={true}
                     />
                     <TouchableOpacity
-                        style={{
-                            position: 'absolute',
-                            zIndex: 1,
-                            top: (SEARCH_WRAPPER_HEIGHT - INPUT_HEIGHT) / 2,
-                            right: 10,
-                            height: INPUT_HEIGHT,
-                            width: INPUT_HEIGHT + 12,
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
+                        style={styles.searchBtn}
                     >
                         <Icons
                             name={'search'}
-                            style={{
-                                marginTop: 2,
-                                fontSize: 24,
-                                color: COLORS_PRIMARY
-                            }}
+                            style={styles.searchIcon}
                         />
                     </TouchableOpacity>
                 </View>
                 <ResultList
                     list={this.state.list}
+                    keyboardHeight={this.iosKeyboardHeight}
                     onSelect={item => this.handelPress(item)}
                 />
             </>
@@ -170,15 +170,10 @@ class ResultList extends Component {
             return <TouchableOpacity
                 key={i}
                 onPress={_ => onSelect && onSelect(item)}
-                style={{
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                    height: 44,
-                    borderBottomWidth: i === lastIndex ? 0 : 0.5,
-                    borderColor: COLORS_BORDER,
-                    backgroundColor: COLORS_WHITE,
-                    justifyContent: 'center'
-                }}
+                style={[
+                    styles.listItemWrapper,
+                    { borderBottomWidth: i === lastIndex ? 0 : 0.5 }
+                ]}
             >
                 <Text numberOfLines={1}>{item.text}</Text>
             </TouchableOpacity>
@@ -186,32 +181,62 @@ class ResultList extends Component {
     }
 
     render () {
-        const { list } = this.props
+        const { list, keyboardHeight } = this.props
         let isEmpty = !list || list.length === 0
-        return isEmpty ? null : <View
-            style={{
-                position: 'absolute',
-                zIndex: 10,
-                top: SEARCH_WRAPPER_HEIGHT - 4,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: 'rgba(0, 0, 0, 0.4)'
-            }}
-        >
+        return isEmpty ? null : <View style={styles.listModelWrapper}>
             <ScrollView
-                style={{
-                    marginLeft: 10,
-                    marginRight: 10,
-                    maxHeight: height / 4,
-                    backgroundColor: COLORS_WHITE,
-                    borderBottomLeftRadius: 4,
-                    borderBottomRightRadius: 4,
-                    paddingBottom: 4
-                }}
+                style={[
+                    styles.listInnerWrapper,
+                    { bottom: Platform.OS === 'ios' ? keyboardHeight + 20 : 20 }
+                ]}
             >
                 {this.createItems(list)}
             </ScrollView>
         </View>
     }
 }
+
+const styles = StyleSheet.create({
+    searchBtn: {
+        position: 'absolute',
+        zIndex: 1,
+        top: (SEARCH_WRAPPER_HEIGHT - INPUT_HEIGHT) / 2,
+        right: 10,
+        height: INPUT_HEIGHT,
+        width: INPUT_HEIGHT + 12,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    searchIcon: {
+        marginTop: 2,
+        fontSize: 24,
+        color: COLORS_PRIMARY
+    },
+    listModelWrapper: {
+        position: 'absolute',
+        zIndex: 10,
+        top: SEARCH_WRAPPER_HEIGHT - 4,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)'
+    },
+    listInnerWrapper: {
+        position: 'absolute',
+        top: 0,
+        left: 10,
+        right: 10,
+        backgroundColor: COLORS_WHITE,
+        borderBottomLeftRadius: 4,
+        borderBottomRightRadius: 4,
+        paddingBottom: 4
+    },
+    listItemWrapper: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        height: 44,
+        borderColor: COLORS_BORDER,
+        backgroundColor: COLORS_WHITE,
+        justifyContent: 'center'
+    }
+})

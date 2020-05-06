@@ -5,7 +5,7 @@
  */
 import 'react-native-gesture-handler'
 import React, { Component } from 'react'
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { Provider } from 'react-redux'
 import { createStackNavigator } from '@react-navigation/stack'
 import store from './stores/index'
