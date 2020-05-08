@@ -310,6 +310,7 @@ const DEVELOPMENT_LANGUAGES = [
     'mupad',
     'Muse',
     'Myghty',
+    'MySQL',
     'nanorc',
     'NASL',
     'NCL',

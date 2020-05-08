@@ -25,7 +25,7 @@ export default class RepositoryItem extends Component {
                         <Text
                             style={styles.fullName}
                             numberOfLines={1}
-                        >{data.full_name}</Text>
+                        >{data.title}</Text>
                     </View>
                     {data.description ? <Text style={styles.description}>{data.description}</Text> : null}
                     <View style={styles.bottomWrapper}>

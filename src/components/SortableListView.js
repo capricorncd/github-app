@@ -1,7 +1,7 @@
 /**
- * Created by Capricorncd.
- * https://github.com/capricorncd
- * Date: 2020-05-05 12:03
+ * Created by ChetStone.
+ * https://github.com/deanmcpherson/react-native-sortable-listview
+ * Date: Jul 29, 2019
  */
 import React, { Component } from 'react'
 import {

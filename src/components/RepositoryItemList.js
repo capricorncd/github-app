@@ -86,7 +86,7 @@ export function formatItemData (res, oldList) {
     let list = res.items.map(item => {
         return {
             id: item.id,
-            full_name: item.full_name,
+            title: item.full_name,
             url: item.html_url,
             description: item.description,
             forks: item.forks,

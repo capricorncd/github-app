@@ -6,39 +6,46 @@
 /** Settings items */
 const SETTINGS_ITEMS = [
     {
+        headerTitle: 'Trending',
         text: 'Trending',
         name: 'trending',
         url: 'https://github.com/trending'
     },
     {
         title: 'Development Language',
+        headerTitle: 'Development Language Selection',
         text: 'Selection',
         name: 'selection',
         page: 'DLSelection'
     },
     {
+        headerTitle: 'Development Language Sorting',
         text: 'Sorting',
         name: 'sort',
         page: 'DLSorting'
     },
     {
         title: 'About me',
+        headerTitle: 'My Github',
         text: 'Github',
         name: 'github',
         url: 'https://github.com/capricorncd'
     },
     {
-        text: 'Design',
+        headerTitle: 'My Design works',
+        text: 'Design works',
         name: 'design',
         url: 'https://yagiza.zcool.com.cn/'
     },
     {
+        headerTitle: 'My Bilibili',
         text: 'Bilibili',
         name: 'bili',
         url: 'https://space.bilibili.com/449971269'
     },
     {
-        text: 'Music Card Mini Program',
+        headerTitle: 'Music Card Mini Program(H5)',
+        text: 'Music Card Mini Program(H5)',
         name: 'meh',
         url: 'https://capricorncd.github.io/react-demo/dist/mc/index.html'
     },
@@ -49,6 +56,7 @@ const SETTINGS_ITEMS = [
     },
     {
         title: 'Other',
+        headerTitle: 'This App Source Code',
         text: 'App Source',
         name: 'source',
         url: 'https://github.com/capricorncd/githubApp'

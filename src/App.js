@@ -11,6 +11,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import store from './stores/index'
 import NavigationBar from './components/NavigationBar'
 import Icons from './components/Icons'
+import { COLORS_WHITE } from './configs'
+import HeaderTitle, { TAB_BUTTON_WIDTH } from './components/HeaderTitle'
 /** pages */
 import Home from './pages/Home'
 import Profile from './pages/Profile'
@@ -19,7 +21,6 @@ import Settings from './pages/Settings'
 import DLSelection from './pages/DLSelection'
 import DLSorting from './pages/DLSorting'
 import Search from './pages/Search'
-import { COLORS_WHITE } from './configs'
 
 const Stack = createStackNavigator()
 
@@ -33,7 +34,7 @@ export default class App extends Component {
     handleHomeOptions ({ navigation, route }) {
         return {
             title: 'Github',
-            headerLeft: params => {
+            headerLeft: () => {
                 return <TouchableOpacity
                     style={styles.tabButtonWrapper}
                     onPress={_ => navigation.navigate('Settings')}
@@ -44,11 +45,11 @@ export default class App extends Component {
                     />
                 </TouchableOpacity>
             },
-            headerRight: (params) => {
+            headerRight: () => {
                 return <TouchableOpacity
                     style={{
                         height: '100%',
-                        width: 44,
+                        width: TAB_BUTTON_WIDTH,
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
@@ -64,8 +65,26 @@ export default class App extends Component {
     }
 
     handleDetailOptions ({ navigation, route }) {
+        let title = null
+        let params = route.params || {}
+        if (route.name === 'Detail') {
+            title = params.headerTitle || params.title || null
+        }
         return {
-            title: null
+            headerTitle () {
+                return <HeaderTitle title={title}/>
+            },
+            headerBackTitleVisible: false
+        }
+    }
+
+    handleDLOptions ({ route }) {
+        let title = route.params.headerTitle
+        return {
+            headerTitle () {
+                return <HeaderTitle title={title}/>
+            },
+            headerBackTitleVisible: false
         }
     }
 
@@ -77,17 +96,25 @@ export default class App extends Component {
                         <Stack.Screen
                             name="Home"
                             component={Home}
-                            options={params => this.handleHomeOptions(params)}
+                            options={this.handleHomeOptions}
                         />
                         <Stack.Screen name="Profile" component={Profile}/>
                         <Stack.Screen
                             name="Detail"
                             component={Detail}
-                            options={params => this.handleDetailOptions(params)}
+                            options={this.handleDetailOptions}
                         />
                         <Stack.Screen name="Settings" component={Settings}/>
-                        <Stack.Screen name="DLSelection" component={DLSelection}/>
-                        <Stack.Screen name="DLSorting" component={DLSorting}/>
+                        <Stack.Screen
+                            name="DLSelection"
+                            component={DLSelection}
+                            options={this.handleDLOptions}
+                        />
+                        <Stack.Screen
+                            name="DLSorting"
+                            component={DLSorting}
+                            options={this.handleDLOptions}
+                        />
                         <Stack.Screen name="Search" component={Search}/>
                     </Stack.Navigator>
                 </NavigationBar>
@@ -99,7 +126,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
     tabButtonWrapper: {
         height: '100%',
-        width: 44,
+        width: TAB_BUTTON_WIDTH,
         alignItems: 'center',
         justifyContent: 'center'
     },
