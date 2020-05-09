@@ -100,8 +100,8 @@ class DLSelection extends Component {
             .sort((a, b) => a.order - b.order)
             .map(item => item.text)
         if (!appUtils.equals(updateKeys, this.originalSelectedKeys)) {
-            storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, this.devLanguages).catch(console.log)
             this.props.changeDevLangKeys(updateKeys)
+            storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, this.devLanguages).catch(console.log)
         }
     }
 
