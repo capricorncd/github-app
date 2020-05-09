@@ -9,97 +9,72 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const ICONS = {
     star: {
-        Icon: AntDesign,
         name: 'star'
+    },
+    staro: {
+        name: 'staro'
     },
     fork: {
         Icon: MaterialCommunityIcons,
         name: 'source-fork'
     },
     left: {
-        Icon: AntDesign,
         name: 'left'
     },
     right: {
-        Icon: AntDesign,
         name: 'right'
     },
     bars: {
-        Icon: AntDesign,
         name: 'bars'
     },
     github: {
-        Icon: AntDesign,
         name: 'github'
     },
     weChat: {
-        Icon: AntDesign,
         name: 'wechat'
     },
     search: {
-        Icon: AntDesign,
         name: 'search1'
     },
     bili: {
-        Icon: AntDesign,
         name: 'playcircleo'
     },
     mail: {
-        Icon: AntDesign,
         name: 'mail'
     },
     feedback: {
-        Icon: AntDesign,
         name: 'message1'
     },
     source: {
-        Icon: AntDesign,
         name: 'folderopen'
     },
     design: {
-        Icon: AntDesign,
         name: 'paperclip'
     },
     selection: {
-        Icon: AntDesign,
         name: 'form'
     },
     sort: {
-        Icon: AntDesign,
         name: 'profile'
     },
     setting: {
-        Icon: AntDesign,
         name: 'setting'
     },
     meh: {
-        Icon: AntDesign,
         name: 'meh'
     },
     close: {
-        Icon: AntDesign,
         name: 'close'
     },
     trending: {
-        Icon: AntDesign,
         name: 'areachart'
     }
 }
 
-const defaultIcon = {
-    Icon: AntDesign,
-    name: 'questioncircleo'
-}
-
 export default class Icons extends Component {
     render () {
-        const {Icon, name} = ICONS[this.props.name] || defaultIcon
+        const { Icon = AntDesign, name = 'questioncircleo' } = ICONS[this.props.name] || {}
         const { style } = this.props
-        return (
-            <Icon
-                name={name}
-                style={style}
-            />
-        )
+        return <Icon name={name} style={style}/>
     }
 }
