@@ -16,7 +16,7 @@ export default class RepositoryItem extends Component {
     }
 
     render () {
-        const { data, onClick, changeConfirm } = this.props
+        const { data, onClick, changeConfirm, disableFavorite } = this.props
         return (
             <TouchableOpacity
                 onPress={_ => onClick(onClick)}
@@ -31,11 +31,11 @@ export default class RepositoryItem extends Component {
                             style={styles.fullName}
                             numberOfLines={1}
                         >{data.title}</Text>
-                        <FavoriteButton
+                        { disableFavorite ? null : <FavoriteButton
                             style={styles.favoriteIcon}
                             isFavorite={data.isFavorite}
                             changeConfirm={changeConfirm}
-                            onChange={flag => this.favoriteChange(flag)}/>
+                            onChange={flag => this.favoriteChange(flag)}/>}
                     </View>
                     {data.description ? <Text style={styles.description}>{data.description}</Text> : null}
                     <View style={styles.bottomWrapper}>

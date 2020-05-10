@@ -62,6 +62,7 @@ class SearchResultList extends Component {
             onClick={_ => {
                 navigate('Detail', { ...data })
             }}
+            disableFavorite={true}
         />
     }
 
