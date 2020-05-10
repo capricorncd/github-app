@@ -13,6 +13,7 @@ import NavigationBar from './components/NavigationBar'
 import Icons from './components/Icons'
 import { COLORS_WHITE } from './configs'
 import HeaderTitle, { TAB_BUTTON_WIDTH } from './components/HeaderTitle'
+import { HeadLeftBackButton, HeadRightBackButton } from './components/HeadBackButtons'
 /** pages */
 import Home from './pages/Home'
 import Profile from './pages/Profile'
@@ -21,6 +22,7 @@ import Settings from './pages/Settings'
 import DLSelection from './pages/DLSelection'
 import DLSorting from './pages/DLSorting'
 import Search from './pages/Search'
+import Favorite from './pages/Favorite'
 
 const Stack = createStackNavigator()
 
@@ -74,7 +76,13 @@ export default class App extends Component {
             headerTitle () {
                 return <HeaderTitle title={title}/>
             },
-            headerBackTitleVisible: false
+            headerBackTitleVisible: false,
+            headerLeft: () => {
+                return <HeadLeftBackButton navigation={navigation} route={route}/>
+            },
+            headerRight: () => {
+                return <HeadRightBackButton navigation={navigation} route={route}/>
+            }
         }
     }
 
@@ -92,7 +100,10 @@ export default class App extends Component {
         return (
             <Provider store={store}>
                 <NavigationBar>
-                    <Stack.Navigator>
+                    <Stack.Navigator
+                        initialRouteName="Home"
+                        screenOptions={{gestureEnabled: false}}
+                    >
                         <Stack.Screen
                             name="Home"
                             component={Home}
@@ -116,6 +127,7 @@ export default class App extends Component {
                             options={this.handleDLOptions}
                         />
                         <Stack.Screen name="Search" component={Search}/>
+                        <Stack.Screen name="Favorite" component={Favorite} options={this.handleDLOptions}/>
                     </Stack.Navigator>
                 </NavigationBar>
             </Provider>

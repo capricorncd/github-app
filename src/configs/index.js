@@ -23,6 +23,11 @@ const COLORS_WHITE = '#fff'
 const GITHUB_URL_API = 'https://api.github.com/search/repositories'
 const REQUEST_PAGE_SIZE = 30
 
+/** Navigator */
+const STATUS_BAR_HEIGHT = 34
+const HEADER_BAR_HEIGHT = 56
+const HEADER_BACK_CLICK = 'HEADER_BACK_CLICK'
+
 export {
     COLORS_BORDER,
     COLORS_GRAY,
@@ -33,7 +38,10 @@ export {
     FAVORITE_STORAGE_KEY,
     GITHUB_URL_API,
     GLOBAL_BACKGROUND_COLOR,
+    HEADER_BACK_CLICK,
+    HEADER_BAR_HEIGHT,
     REQUEST_PAGE_SIZE,
+    STATUS_BAR_HEIGHT,
     STORAGE_CACHE_MILLISECOND,
     SETTINGS_ITEMS
 }

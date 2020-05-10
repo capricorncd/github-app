@@ -4,7 +4,7 @@
  * Date: 2020-05-02 17:29
  */
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { GLOBAL_BACKGROUND_COLOR, GITHUB_URL_API } from '../configs/index'
 import appUtils from '../utils'
 import RepositoryItem from './RepositoryItem'
@@ -73,7 +73,6 @@ class SearchResultList extends Component {
         if (this.isKeywordChanged) {
             this.getList()
         }
-        console.log('isKeywordChanged', this.isKeywordChanged)
         return (
             <View
                 style={{
