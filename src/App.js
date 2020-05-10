@@ -31,6 +31,7 @@ export default class App extends Component {
         super(props)
         // disable warning
         console.disableYellowBox = true
+        global.favoriteItems = []
     }
 
     handleHomeOptions ({ navigation, route }) {

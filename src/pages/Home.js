@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import RepositoryItemList from '../components/RepositoryItemList'
 import storeUtils from '../stores/storeUtils'
-import { DEV_LANGUAGES_STORAGE_KEY } from '../configs'
+import { DEV_LANGUAGES_STORAGE_KEY, FAVORITE_INIT_COMPLETED, FAVORITE_STORAGE_KEY } from '../configs'
 import { DL_ANNUAL_LEAGUE_TABLE } from '../configs/developmentLanguages'
 
 const Tab = createMaterialTopTabNavigator()
@@ -19,6 +19,7 @@ class Home extends Component {
         this.state = {
             devLanguages: []
         }
+        this.initFavorites()
         this.initDevLanguages()
     }
 
@@ -36,8 +37,15 @@ class Home extends Component {
         })
     }
 
+    initFavorites () {
+        storeUtils.get(FAVORITE_STORAGE_KEY).then(res => {
+            global.favoriteItems = res
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     createTabScreen (list) {
-        // console.log(list)
         return list.map(item => {
             return <Tab.Screen name={item} key={item} component={RepositoryItemList}/>
         })

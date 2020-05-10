@@ -9,6 +9,11 @@ import Icons from './Icons'
 import { COLORS_PRIMARY } from '../configs'
 
 const defaultStyles = {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 22,
+    height: 22,
     alignItems: 'center',
     justifyContent: 'center'
 }
@@ -17,41 +22,26 @@ export default class FavoriteButton extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            isFavorite: props.isFavorite || false
+            isFavorite: props.data.isFavorite || false
         }
+    }
+
+    static getDerivedStateFromProps (props, state) {
+        if (state.isFavorite !== props.isFavorite) {
+            return {
+                isFavorite: props.data.isFavorite
+            }
+        }
+        return null
     }
 
     onPress () {
-        if (this.props.changeConfirm) {
-            Alert.alert(
-                'Warning',
-                'Do you want to change the favorite state?',
-                [
-                    {
-                        text: 'No',
-                        onPress: () => {}
-                    },
-                    {
-                        text: 'Yes',
-                        onPress: () => {
-                            this._handleOnPress()
-                        },
-                        style: 'cancel'
-                    }
-                ],
-                { cancelable: false }
-            )
-        } else {
-            this._handleOnPress()
-        }
-    }
-
-    _handleOnPress () {
         let value = !this.state.isFavorite
+        // fix change isFavorite failed, props change before getDerivedStateFromProps()
+        this.props.data.isFavorite = value
+        this.props.onChange && this.props.onChange(value)
         this.setState({
             isFavorite: value
-        }, () => {
-            this.props.onChange && this.props.onChange(value)
         })
     }
 

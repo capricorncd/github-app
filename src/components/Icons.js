@@ -71,6 +71,10 @@ const ICONS = {
     },
     cloudo: {
         name: 'cloudo'
+    },
+    delete: {
+        Icon: MaterialCommunityIcons,
+        name: 'delete-circle-outline'
     }
 }
 

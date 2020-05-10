@@ -4,13 +4,19 @@
  * Date: 2020-05-02 17:29
  */
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { GLOBAL_BACKGROUND_COLOR, GITHUB_URL_API } from '../configs/index'
+import { DeviceEventEmitter, View } from 'react-native'
+import {
+    GLOBAL_BACKGROUND_COLOR,
+    GITHUB_URL_API,
+    FAVORITE_STORAGE_KEY,
+    FAVORITE_STORAGE_CHANGED
+} from '../configs/index'
 import appUtils from '../utils'
 import RepositoryItem from './RepositoryItem'
 import FlatListComponent from './FlatListComponent'
 import { connect } from 'react-redux'
-import { formatItemData } from './RepositoryItemList'
+import { formatItemData, handleFavoriteChange } from './RepositoryItemList'
+import FavoriteButton from './FavoriteButton'
 
 class SearchResultList extends Component {
     constructor (props) {
@@ -25,6 +31,11 @@ class SearchResultList extends Component {
 
     componentDidMount () {
         this.getList()
+    }
+
+    componentWillUnmount () {
+        if (!this.isFavoriteChanged) return
+        DeviceEventEmitter.emit(FAVORITE_STORAGE_CHANGED, null)
     }
 
     getList (isLoadMore) {
@@ -62,7 +73,16 @@ class SearchResultList extends Component {
             onClick={_ => {
                 navigate('Detail', { ...data })
             }}
-            disableFavorite={true}
+            rightTopButton={(
+                <FavoriteButton
+                    data={data}
+                    isFavorite={data.isFavorite}
+                    onChange={flag => {
+                        this.isFavoriteChanged = true
+                        data.isFavorite = flag
+                        handleFavoriteChange(data)
+                    }}/>
+            )}
         />
     }
 

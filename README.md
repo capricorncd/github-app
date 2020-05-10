@@ -57,6 +57,8 @@ cd android
 
 ### Documents
 
+React https://github.com/facebook/react
+
 React Native https://reactnative.dev/
 
 React Navigation https://reactnavigation.org/

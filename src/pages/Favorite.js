@@ -4,14 +4,15 @@
  * Date: 2020-05-09 17:22
  */
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, DeviceEventEmitter } from 'react-native'
 import { connect } from 'react-redux'
 import actions from '../stores/actions'
-import { FAVORITE_STORAGE_KEY, GLOBAL_BACKGROUND_COLOR } from '../configs'
+import { FAVORITE_STORAGE_CHANGED, FAVORITE_STORAGE_KEY, GLOBAL_BACKGROUND_COLOR } from '../configs'
 import FlatListComponent from '../components/FlatListComponent'
 import RepositoryItem from '../components/RepositoryItem'
 import storeUtils from '../stores/storeUtils'
 import NoContent from '../components/NoContent'
+import DeleteButton from '../components/DeleteButton'
 
 class Favorite extends Component {
     constructor (props) {
@@ -24,18 +25,19 @@ class Favorite extends Component {
 
     initFavorites () {
         storeUtils.get(FAVORITE_STORAGE_KEY).then(res => {
-            console.log('FAVORITE_STORAGE_KEY', res)
             this.setState({
                 favoriteItems: res
             })
+            this.isChanged = true
         }).catch(err => {
             console.log(err)
         })
     }
 
     componentWillUnmount () {
-        this.props.changeFavorites(this.state.favoriteItems)
+        if (!this.isChanged) return
         storeUtils.set(FAVORITE_STORAGE_KEY, this.state.favoriteItems).catch(console.log)
+        DeviceEventEmitter.emit(FAVORITE_STORAGE_CHANGED, this.state.favoriteItems)
     }
 
     renderItem (data) {
@@ -45,12 +47,19 @@ class Favorite extends Component {
             onClick={_ => {
                 navigate('Detail', { ...data })
             }}
-            onFavoriteChange={flag => this.favoriteChange({ ...data, isFavorite: flag })}
-            changeConfirm={true}
+            rightTopButton={(<DeleteButton
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0
+                    }}
+                    onDelete={() => this.deleteFavorite(data)}
+                />
+            )}
         />
     }
 
-    favoriteChange (data) {
+    deleteFavorite (data) {
         let oldList = this.state.favoriteItems
         let index = oldList.findIndex(item => item.id === data.id)
         if (index > -1) {

@@ -58,7 +58,7 @@ export class HeadRightBackButton extends Component {
 
 const publicStyles = {
     width: 15,
-    height: 2.5,
+    height: 3,
     borderBottomRightRadius: 2,
     borderTopRightRadius: 2,
     backgroundColor: COLORS_WHITE,

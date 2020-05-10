@@ -4,65 +4,55 @@
  * Date: 2020-05-02 17:29
  */
 import React, { Component } from 'react'
-import { DeviceEventEmitter, View } from 'react-native'
-import { GLOBAL_BACKGROUND_COLOR, GITHUB_URL_API, FAVORITE_STORAGE_KEY } from '../configs/index'
+import { DeviceEventEmitter, View, StyleSheet } from 'react-native'
+import {
+    GLOBAL_BACKGROUND_COLOR,
+    GITHUB_URL_API,
+    FAVORITE_STORAGE_KEY,
+    FAVORITE_STORAGE_CHANGED
+} from '../configs/index'
 import appUtils from '../utils'
 import RepositoryItem from './RepositoryItem'
 import FlatListComponent from './FlatListComponent'
 import { connect } from 'react-redux'
 import storeUtils from '../stores/storeUtils'
-import actions from '../stores/actions'
+import FavoriteButton from './FavoriteButton'
 
 class RepositoryItemList extends Component {
     constructor (props) {
         super(props)
-        const { route, favorite } = this.props
+        const { route } = this.props
         this.keyword = appUtils.toGithubQueryKeyword(route.name)
         this.isKeywordChanged = false
         this.state = {
             list: [],
             page: 1
         }
-        this.favoriteItems = favorite.list
-        this.initFavorites(() => {
-            this.getList()
-        })
+        this.handleFavoriteChange = this._handleFavoriteChange.bind(this)
     }
 
     componentDidMount () {
-        DeviceEventEmitter.addListener('detailFavoriteStateChange', data => {
-            this.favoriteChange(data)
-            let oldList = this.state.list
-            if (!Array.isArray(data)) {
-                data = [data]
-            }
-            data.forEach(item => {
-                let index = oldList.findIndex(oldItem => item.id === oldItem.id)
-                if (index === -1) return
-                oldList[index] = {
-                    ...item
-                }
-            })
-            // update UI
-            this.setState({
-                list: oldList
-            }, () => {
-                alert('setState success')
-            })
-        })
+        this.getList()
+        DeviceEventEmitter.addListener(FAVORITE_STORAGE_CHANGED, this.handleFavoriteChange)
     }
 
     componentWillUnmount () {
-        DeviceEventEmitter.removeAllListeners('detailFavoriteStateChange')
+        DeviceEventEmitter.removeListener(FAVORITE_STORAGE_CHANGED, this.handleFavoriteChange)
     }
 
-    initFavorites (callback) {
-        storeUtils.get(FAVORITE_STORAGE_KEY).then(res => {
-            this.favoriteItems = res
-            callback()
-        }).catch(err => {
-            console.log(err)
-            callback()
+    _handleFavoriteChange (list) {
+        if (list === null) {
+            // changed from search result list
+            list = global.favoriteItems
+        } else {
+            // changed from settings favorite
+            global.favoriteItems = list
+        }
+        this.setState({
+            list: this.state.list.map(item => {
+                item.isFavorite = list.some(fav => fav.id === item.id)
+                return item
+            })
         })
     }
 
@@ -73,7 +63,7 @@ class RepositoryItemList extends Component {
             this.isKeywordChanged = false
             appUtils.fetch(GITHUB_URL_API, { q: this.keyword, sort: 'star', page }).then(res => {
                 if (res.items) {
-                    let list = formatItemData(res, oldList, this.favoriteItems)
+                    let list = formatItemData(res, oldList, global.favoriteItems)
                     this.setState({
                         page: ++page,
                         list: isLoadMore ? oldList.concat(list) : list
@@ -92,39 +82,24 @@ class RepositoryItemList extends Component {
             onClick={_ => {
                 navigate('Detail', { ...data })
             }}
-            onFavoriteChange={flag => this.favoriteChange({
-                ...data,
-                isFavorite: flag
-            })}
+            rightTopButton={(
+                <FavoriteButton
+                    data={data}
+                    isFavorite={data.isFavorite}
+                    onChange={flag => {
+                        data.isFavorite = flag
+                        handleFavoriteChange(data)
+                    }}/>
+            )}
         />
     }
 
-    favoriteChange (data) {
-        if (!Array.isArray(data)) {
-            data = [data]
-        }
-        data.forEach(item => {
-            let index = this.favoriteItems.findIndex(oldItem => item.id === oldItem.id)
-            if (item.isFavorite) {
-                if (index > -1) {
-                    this.favoriteItems[index] = item
-                } else {
-                    this.favoriteItems.unshift(item)
-                }
-            } else if (index > -1) {
-                this.favoriteItems.splice(index, 1)
-            }
-        })
-        storeUtils.set(FAVORITE_STORAGE_KEY, this.favoriteItems).catch(console.log)
-        this.props.changeFavorites(this.favoriteItems)
-    }
-
     render () {
-        const { theme, route, favorite } = this.props
-        this.favoriteItems = favorite.list
+        const { theme, route } = this.props
         let newKeyword = appUtils.toGithubQueryKeyword(route.name)
         this.isKeywordChanged = this.keyword !== newKeyword
         this.keyword = newKeyword
+        console.log('list render', this.props, this.state.list.filter(item => item.isFavorite)?.map(item => item.title))
         return (
             <View style={{ flex: 1, backgroundColor: GLOBAL_BACKGROUND_COLOR }}>
                 <FlatListComponent
@@ -177,13 +152,24 @@ export function formatItemData (res, oldList, favoriteItems = []) {
     return list
 }
 
-const mapStateToProps = state => ({
-    theme: state.theme,
-    favorite: state.favorite
-})
-
-const mapDispatchToProps = {
-    changeFavorites: actions.changeFavorites
+export function handleFavoriteChange (item) {
+    let oldList = global.favoriteItems
+    let index = oldList.findIndex(oldItem => item.id === oldItem.id)
+    if (item.isFavorite) {
+        if (index > -1) {
+            oldList[index] = item
+        } else {
+            oldList.unshift(item)
+        }
+    } else if (index > -1) {
+        oldList.splice(index, 1)
+    }
+    storeUtils.set(FAVORITE_STORAGE_KEY, oldList).catch(console.log)
+    global.favoriteItems = oldList
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RepositoryItemList)
+const mapStateToProps = state => ({
+    theme: state.theme
+})
+
+export default connect(mapStateToProps)(RepositoryItemList)
