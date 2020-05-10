@@ -99,7 +99,6 @@ class RepositoryItemList extends Component {
         let newKeyword = appUtils.toGithubQueryKeyword(route.name)
         this.isKeywordChanged = this.keyword !== newKeyword
         this.keyword = newKeyword
-        console.log('list render', this.props, this.state.list.filter(item => item.isFavorite)?.map(item => item.title))
         return (
             <View style={{ flex: 1, backgroundColor: GLOBAL_BACKGROUND_COLOR }}>
                 <FlatListComponent
