@@ -6,8 +6,10 @@
 import { combineReducers } from 'redux'
 import theme from './theme'
 import devLanguages from './devLanguages'
+import favorite from './favorite'
 
 export default combineReducers({
     theme,
-    devLanguages
+    devLanguages,
+    favorite
 })

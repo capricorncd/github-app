@@ -12,6 +12,12 @@ const SETTINGS_ITEMS = [
         url: 'https://github.com/trending'
     },
     {
+        headerTitle: 'Favorite Repositories',
+        text: 'Favorite',
+        name: 'staro',
+        page: 'Favorite'
+    },
+    {
         title: 'Development Language',
         headerTitle: 'Development Language Selection',
         text: 'Selection',

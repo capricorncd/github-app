@@ -5,8 +5,10 @@
  */
 import { changeTheme } from './theme'
 import { changeDevLangKeys } from './devLanguages'
+import { changeFavorites } from './favorite'
 
 export default {
     changeTheme,
-    changeDevLangKeys
+    changeDevLangKeys,
+    changeFavorites
 }

@@ -28,16 +28,19 @@ export default class FlatListComponent extends Component {
         this.setState({
             refreshState: REFRESH_START
         })
-        this.props.onRefresh().then(_ => {
-            this.setState({
-                refreshState: REFRESH_SUCCESS
+        const { onRefresh } = this.props
+        if (typeof onRefresh === 'function') {
+            onRefresh().then(_ => {
+                this.setState({
+                    refreshState: REFRESH_SUCCESS
+                })
+            }).catch(err => {
+                this.setState({
+                    refreshState: REFRESH_FAILED
+                })
+                Alert.alert(err.message)
             })
-        }).catch(err => {
-            this.setState({
-                refreshState: REFRESH_FAILED
-            })
-            Alert.alert(err.message)
-        })
+        }
     }
 
     _onLoadMore () {
@@ -45,20 +48,23 @@ export default class FlatListComponent extends Component {
         this.setState({
             loadMoreState: LOAD_MORE_START
         })
-        this.props.onLoadMore().then(_ => {
-            this.setState({
-                loadMoreState: LOAD_MORE_SUCCESS
+        const { onLoadMore } = this.props
+        if (typeof onLoadMore === 'function') {
+            onLoadMore().then(_ => {
+                this.setState({
+                    loadMoreState: LOAD_MORE_SUCCESS
+                })
+            }).catch(err => {
+                this.setState({
+                    loadMoreState: LOAD_MORE_FAILED
+                })
+                Alert.alert(err.message)
             })
-        }).catch(err => {
-            this.setState({
-                loadMoreState: LOAD_MORE_FAILED
-            })
-            Alert.alert(err.message)
-        })
+        }
     }
 
     render () {
-        const { theme, renderItem, list, keyExtractor } = this.props
+        const { theme, renderItem, list, keyExtractor, disabledLoadMore } = this.props
         const themeColor = theme.color
         return (
             <FlatList
@@ -76,7 +82,7 @@ export default class FlatListComponent extends Component {
                     />
                 }
                 ListFooterComponent={_ => {
-                    return this.state.loadMoreState === LOAD_MORE_START || list.length === 0
+                    return disabledLoadMore || this.state.loadMoreState === LOAD_MORE_START || list.length === 0
                         ? null
                         : <View style={styles.wrapper}>
                             <ActivityIndicator

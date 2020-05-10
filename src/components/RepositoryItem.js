@@ -8,10 +8,15 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import appUtils from '../utils'
 import Icons from './Icons'
 import { COLORS_GRAY, COLORS_PRIMARY, GLOBAL_BACKGROUND_COLOR, COLORS_WHITE, COLORS_GRAY_LIGHT } from '../configs/index'
+import FavoriteButton from './FavoriteButton'
 
 export default class RepositoryItem extends Component {
+    favoriteChange (flag) {
+        this.props.onFavoriteChange && this.props.onFavoriteChange(flag)
+    }
+
     render () {
-        const { data, onClick } = this.props
+        const { data, onClick, changeConfirm } = this.props
         return (
             <TouchableOpacity
                 onPress={_ => onClick(onClick)}
@@ -26,6 +31,11 @@ export default class RepositoryItem extends Component {
                             style={styles.fullName}
                             numberOfLines={1}
                         >{data.title}</Text>
+                        <FavoriteButton
+                            style={styles.favoriteIcon}
+                            isFavorite={data.isFavorite}
+                            changeConfirm={changeConfirm}
+                            onChange={flag => this.favoriteChange(flag)}/>
                     </View>
                     {data.description ? <Text style={styles.description}>{data.description}</Text> : null}
                     <View style={styles.bottomWrapper}>
@@ -76,7 +86,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         marginBottom: 2,
         color: COLORS_PRIMARY,
-        width: '90%'
+        width: '80%'
     },
     description: {
         fontSize: 14,
@@ -101,5 +111,12 @@ const styles = StyleSheet.create({
     updateDate: {
         fontSize: 12,
         color: COLORS_GRAY
+    },
+    favoriteIcon: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        width: 22,
+        height: 22
     }
 })
