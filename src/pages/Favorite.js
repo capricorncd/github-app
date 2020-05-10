@@ -48,6 +48,7 @@ class Favorite extends Component {
                 navigate('Detail', { ...data })
             }}
             rightTopButton={(<DeleteButton
+                    data={data}
                     style={{
                         position: 'absolute',
                         top: 0,

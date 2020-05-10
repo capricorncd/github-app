@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import { TouchableOpacity, Alert } from 'react-native'
 import Icons from './Icons'
-import { COLORS_PRIMARY } from '../configs'
+import { COLORS_GRAY_LIGHT } from '../configs'
 
 const defaultStyles = {
     alignItems: 'center',
@@ -14,10 +14,10 @@ const defaultStyles = {
 }
 
 export default class DeleteButton extends Component {
-    handlePress () {
+    handlePress (data) {
         Alert.alert(
             'Warning',
-            'Do you want to delete the favorite?',
+            `Do you want to remove the "${data.title}"?`,
             [
                 {
                     text: 'No',
@@ -37,16 +37,16 @@ export default class DeleteButton extends Component {
     }
 
     render () {
-        const { style, iconStyle } = this.props
+        const { style, iconStyle, data } = this.props
         return (
             <TouchableOpacity
                 style={{ ...defaultStyles, ...style }}
-                onPress={() => this.handlePress()}
+                onPress={() => this.handlePress(data)}
             >
                 <Icons
                     name={'delete'}
                     style={{
-                        color: COLORS_PRIMARY,
+                        color: COLORS_GRAY_LIGHT,
                         fontSize: 22,
                         ...iconStyle
                     }}
