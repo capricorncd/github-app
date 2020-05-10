@@ -64,7 +64,7 @@ export default class FlatListComponent extends Component {
     }
 
     render () {
-        const { theme, renderItem, list, keyExtractor, disabledLoadMore } = this.props
+        const { theme, renderItem, list, keyExtractor, disableLoadMore, disableRefresh } = this.props
         const themeColor = theme.color
         return (
             <FlatList
@@ -76,13 +76,13 @@ export default class FlatListComponent extends Component {
                         title={'loading'}
                         titleColor={themeColor}
                         colors={[themeColor]}
-                        refreshing={this.state.refreshState === REFRESH_START}
+                        refreshing={!disableRefresh && this.state.refreshState === REFRESH_START}
                         onRefresh={_ => this._onRefresh()}
                         tintColor={themeColor}
                     />
                 }
                 ListFooterComponent={_ => {
-                    return disabledLoadMore || this.state.loadMoreState === LOAD_MORE_START || list.length === 0
+                    return disableLoadMore || this.state.loadMoreState === LOAD_MORE_START || list.length === 0
                         ? null
                         : <View style={styles.wrapper}>
                             <ActivityIndicator

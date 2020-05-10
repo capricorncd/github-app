@@ -82,7 +82,8 @@ class Favorite extends Component {
                             keyExtractor={item => item.id + ''}
                             theme={theme}
                             renderItem={data => this.renderItem(data.item)}
-                            disabledLoadMore={true}
+                            disableRefresh={true}
+                            disableLoadMore={true}
                         />
                 }
             </View>
