@@ -68,6 +68,9 @@ const ICONS = {
     },
     trending: {
         name: 'areachart'
+    },
+    cloudo: {
+        name: 'cloudo'
     }
 }
 
