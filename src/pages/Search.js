@@ -28,9 +28,40 @@ class Search extends Component {
     componentWillUnmount () {
         if (this.selectedKeywords.length > 0 && this.devLanguages) {
             let hasUpdate = false
-            this.devLanguages.forEach((item, i) => {
-                if (this.selectedKeywords.includes(item.text) && !item.isChecked) {
-                    item.isChecked = true
+            // this.devLanguages.forEach((item, i) => {
+            //     if (this.selectedKeywords.includes(item.text) && !item.isChecked) {
+            //         item.isChecked = true
+            //         hasUpdate = true
+            //     }
+            // })
+            let tempIndex = -1
+            this.selectedKeywords.forEach(keyword => {
+                tempIndex = this.devLanguages.findIndex(item => item.text.toLowerCase() === keyword.toLowerCase())
+                if (tempIndex !== -1) {
+                    if (!this.devLanguages[tempIndex].isChecked) {
+                        this.devLanguages[tempIndex].isChecked = true
+                        hasUpdate = true
+                    }
+                } else {
+                    let initial = keyword[0].toLowerCase()
+                    tempIndex = this.devLanguages.findIndex(item => item.text.toLowerCase()[0] === initial)
+                    if (tempIndex !== -1) {
+                        // insert
+                        this.devLanguages.splice(tempIndex + 1, 0, {
+                            column: null,
+                            text: keyword,
+                            isChecked: true,
+                            order: 0
+                        })
+                    } else {
+                        // unshift
+                        this.devLanguages.unshift({
+                            column: null,
+                            text: keyword,
+                            isChecked: true,
+                            order: 0
+                        })
+                    }
                     hasUpdate = true
                 }
             })
@@ -57,6 +88,15 @@ class Search extends Component {
         }
     }
 
+    // remove keyword from selectedKeywords
+    handleResultError(keyword) {
+        let index = this.selectedKeywords.findIndex(item => item === keyword)
+        // remove keyword because search result is null
+        if (index !== -1) {
+            this.selectedKeywords.splice(index, 1)
+        }
+    }
+
     render () {
         const { theme, navigation } = this.props
         return (
@@ -70,6 +110,7 @@ class Search extends Component {
                     navigation={navigation}
                     style={{ marginTop: SEARCH_WRAPPER_HEIGHT }}
                     keyword={this.state.keyword}
+                    onResultError={keyword => this.handleResultError(keyword)}
                 />
             </>
         )

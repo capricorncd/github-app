@@ -17,7 +17,7 @@ import storeUtils from '../stores/storeUtils'
 import { originalDevLanguages } from '../configs/developmentLanguages'
 
 export const SEARCH_WRAPPER_HEIGHT = 48
-const INPUT_HEIGHT = 32
+const INPUT_HEIGHT = 36
 const DEFAULT_PLACEHOLDER = 'Search or jump to…'
 
 const defaultBarStyles = {
@@ -108,9 +108,10 @@ export default class SearchBar extends Component {
         this.setState({
             list: []
         })
-        this.keyword = item.text
+        if (!item.text) return
+        this.keyword = item.text.trim()
         if (typeof this.props.onChange === 'function') {
-            this.props.onChange(item.text)
+            this.props.onChange(this.keyword)
         }
     }
 
@@ -145,6 +146,9 @@ export default class SearchBar extends Component {
                     />
                     <TouchableOpacity
                         style={styles.searchBtn}
+                        onPress={() => {
+                            this.handelPress({ text: this.keyword })
+                        }}
                     >
                         <Icons
                             name={'search'}

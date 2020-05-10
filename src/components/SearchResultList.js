@@ -53,6 +53,12 @@ class SearchResultList extends Component {
             this.isKeywordChanged = false
 
             appUtils.fetch(GITHUB_URL_API, { q: this.keyword, sort: 'star', page }).then(res => {
+                // keyword result check
+                if (res?.total_count === 0) {
+                    this.props.onResultError(this.keyword)
+                    resolve()
+                    return
+                }
                 if (res.items) {
                     let list = formatItemData(res, oldList)
                     this.setState({
