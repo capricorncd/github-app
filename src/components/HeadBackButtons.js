@@ -16,7 +16,7 @@ const defaultWrapperStyles = {
 
 export class HeadLeftBackButton extends Component {
     render () {
-        const { navigation, route } = this.props
+        const { navigation, route, isCustomGoBack } = this.props
         return <TouchableOpacity
             style={{
                 ...defaultWrapperStyles,
@@ -24,7 +24,12 @@ export class HeadLeftBackButton extends Component {
                 paddingRight: 10
             }}
             onPress={_ => {
-                DeviceEventEmitter.emit(HEADER_BACK_CLICK, { navigation, route })
+                // custom go back when header back button on click
+                if (isCustomGoBack) {
+                    DeviceEventEmitter.emit(HEADER_BACK_CLICK, { navigation, route })
+                } else {
+                    navigation.goBack()
+                }
             }}
         >
             <LeftArrow/>

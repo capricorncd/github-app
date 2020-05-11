@@ -79,7 +79,7 @@ export default class App extends Component {
             },
             headerBackTitleVisible: false,
             headerLeft: () => {
-                return <HeadLeftBackButton navigation={navigation} route={route}/>
+                return <HeadLeftBackButton isCustomGoBack={true} navigation={navigation} route={route}/>
             },
             headerRight: () => {
                 return <HeadRightBackButton navigation={navigation} route={route}/>
@@ -87,11 +87,14 @@ export default class App extends Component {
         }
     }
 
-    handleDLOptions ({ route }) {
-        let title = route.params.headerTitle
+    handleDefaultOptions ({ navigation, route }) {
+        let title = route.params?.headerTitle || route.name
         return {
             headerTitle () {
                 return <HeaderTitle title={title}/>
+            },
+            headerLeft: () => {
+                return <HeadLeftBackButton navigation={navigation} route={route}/>
             },
             headerBackTitleVisible: false
         }
@@ -103,7 +106,10 @@ export default class App extends Component {
                 <NavigationBar>
                     <Stack.Navigator
                         initialRouteName="Home"
-                        screenOptions={{gestureEnabled: false}}
+                        screenOptions={{
+                            gestureEnabled: false,
+                            headerTitleAlign: 'center'
+                        }}
                     >
                         <Stack.Screen
                             name="Home"
@@ -120,15 +126,15 @@ export default class App extends Component {
                         <Stack.Screen
                             name="DLSelection"
                             component={DLSelection}
-                            options={this.handleDLOptions}
+                            options={this.handleDefaultOptions}
                         />
                         <Stack.Screen
                             name="DLSorting"
                             component={DLSorting}
-                            options={this.handleDLOptions}
+                            options={this.handleDefaultOptions}
                         />
-                        <Stack.Screen name="Search" component={Search}/>
-                        <Stack.Screen name="Favorite" component={Favorite} options={this.handleDLOptions}/>
+                        <Stack.Screen name="Search" component={Search} options={this.handleDefaultOptions}/>
+                        <Stack.Screen name="Favorite" component={Favorite} options={this.handleDefaultOptions}/>
                     </Stack.Navigator>
                 </NavigationBar>
             </Provider>

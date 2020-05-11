@@ -14,7 +14,8 @@ const windowWidth = Dimensions.get('window').width
 const defaultStyles = {
     height: '100%',
     justifyContent: 'center',
-    marginLeft: Platform.OS === 'ios' ? TAB_BUTTON_WIDTH : -20,
+    alignItems: 'center',
+    marginLeft: TAB_BUTTON_WIDTH,
     marginRight: TAB_BUTTON_WIDTH
 }
 
@@ -35,7 +36,7 @@ export default class HeaderTitle extends Component {
                 style={{
                     color: COLORS_WHITE,
                     fontSize: 17,
-                    fontWeight: '600',
+                    fontWeight: 'bold',
                     ...textStyles
                 }}
             >{title}</Text>
