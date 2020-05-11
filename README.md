@@ -10,10 +10,7 @@ https://capricorncd.github.io/githubApp/download/index.html
 
 Screenshot from iPhone 6 plus
 
-<img src="./download/screenshot001.png" width="320"/>
-<img src="./download/screenshot002.png" width="320"/>
-<img src="./download/screenshot003.png" width="320"/>
-<img src="./download/screenshot004.png" width="320"/>
+![Github app Screenshot from iPhone 6 plus](./download/screenshot-from-iphone6-plus.png)
 
 ### Start
 
