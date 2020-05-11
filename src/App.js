@@ -13,10 +13,9 @@ import NavigationBar from './components/NavigationBar'
 import Icons from './components/Icons'
 import { COLORS_WHITE } from './configs'
 import HeaderTitle, { TAB_BUTTON_WIDTH } from './components/HeaderTitle'
-import { HeadLeftBackButton, HeadRightBackButton } from './components/HeadBackButtons'
+import { HeaderLeftBackButton, HeaderRightBackButton } from './components/HeaderBackButtons'
 /** pages */
 import Home from './pages/Home'
-import Profile from './pages/Profile'
 import Detail from './pages/Detail'
 import Settings from './pages/Settings'
 import DLSelection from './pages/DLSelection'
@@ -79,10 +78,10 @@ export default class App extends Component {
             },
             headerBackTitleVisible: false,
             headerLeft: () => {
-                return <HeadLeftBackButton isCustomGoBack={true} navigation={navigation} route={route}/>
+                return <HeaderLeftBackButton isCustomGoBack={true} navigation={navigation} route={route}/>
             },
             headerRight: () => {
-                return <HeadRightBackButton navigation={navigation} route={route}/>
+                return <HeaderRightBackButton navigation={navigation} route={route}/>
             }
         }
     }
@@ -94,7 +93,7 @@ export default class App extends Component {
                 return <HeaderTitle title={title}/>
             },
             headerLeft: () => {
-                return <HeadLeftBackButton navigation={navigation} route={route}/>
+                return <HeaderLeftBackButton navigation={navigation} route={route}/>
             },
             headerBackTitleVisible: false
         }
@@ -116,13 +115,16 @@ export default class App extends Component {
                             component={Home}
                             options={this.handleHomeOptions}
                         />
-                        <Stack.Screen name="Profile" component={Profile}/>
                         <Stack.Screen
                             name="Detail"
                             component={Detail}
                             options={this.handleDetailOptions}
                         />
-                        <Stack.Screen name="Settings" component={Settings}/>
+                        <Stack.Screen
+                            name="Settings"
+                            component={Settings}
+                            options={this.handleDefaultOptions}
+                        />
                         <Stack.Screen
                             name="DLSelection"
                             component={DLSelection}
@@ -133,8 +135,16 @@ export default class App extends Component {
                             component={DLSorting}
                             options={this.handleDefaultOptions}
                         />
-                        <Stack.Screen name="Search" component={Search} options={this.handleDefaultOptions}/>
-                        <Stack.Screen name="Favorite" component={Favorite} options={this.handleDefaultOptions}/>
+                        <Stack.Screen
+                            name="Search"
+                            component={Search}
+                            options={this.handleDefaultOptions}
+                        />
+                        <Stack.Screen
+                            name="Favorite"
+                            component={Favorite}
+                            options={this.handleDefaultOptions}
+                        />
                     </Stack.Navigator>
                 </NavigationBar>
             </Provider>

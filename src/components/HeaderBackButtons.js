@@ -4,7 +4,7 @@
  * Date: 2020-05-10 12:16
  */
 import React, { Component } from 'react'
-import { View, TouchableOpacity, DeviceEventEmitter } from 'react-native'
+import { View, TouchableOpacity, DeviceEventEmitter, Platform } from 'react-native'
 import { COLORS_WHITE, HEADER_BACK_CLICK } from '../configs'
 import Icons from './Icons'
 
@@ -14,14 +14,16 @@ const defaultWrapperStyles = {
     justifyContent: 'center'
 }
 
-export class HeadLeftBackButton extends Component {
+let isIos = Platform.OS === 'ios'
+
+export class HeaderLeftBackButton extends Component {
     render () {
         const { navigation, route, isCustomGoBack } = this.props
         return <TouchableOpacity
             style={{
                 ...defaultWrapperStyles,
                 width: 40,
-                paddingRight: 10
+                paddingRight: isIos ? 10 : 0
             }}
             onPress={_ => {
                 // custom go back when header back button on click
@@ -37,7 +39,7 @@ export class HeadLeftBackButton extends Component {
     }
 }
 
-export class HeadRightBackButton extends Component {
+export class HeaderRightBackButton extends Component {
     render () {
         const { navigation } = this.props
         return <TouchableOpacity
@@ -71,6 +73,7 @@ const publicStyles = {
 
 class LeftArrow extends Component {
     render () {
+        publicStyles.height = isIos ? 3 : 2
         return <>
             <View style={{
                 ...publicStyles,
