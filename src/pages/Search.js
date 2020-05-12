@@ -11,6 +11,7 @@ import SearchResultList from '../components/SearchResultList'
 import storeUtils from '../stores/storeUtils'
 import { DEV_LANGUAGES_STORAGE_KEY } from '../configs'
 import actions from '../stores/actions/index'
+import appUtils from '../utils'
 
 class Search extends Component {
     constructor (props) {
@@ -43,8 +44,7 @@ class Search extends Component {
                         hasUpdate = true
                     }
                 } else {
-                    let initial = keyword[0].toLowerCase()
-                    tempIndex = this.devLanguages.findIndex(item => item.text.toLowerCase()[0] === initial)
+                    tempIndex = appUtils.findInsertIndex(keyword, this.devLanguages, 'text')
                     if (tempIndex !== -1) {
                         // insert
                         this.devLanguages.splice(tempIndex + 1, 0, {

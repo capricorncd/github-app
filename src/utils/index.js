@@ -150,11 +150,57 @@ const appUtils = {
         }
         return true
     },
+    /**
+     * format str to github query keyword style
+     * @param str
+     * @returns {any}
+     */
     toGithubQueryKeyword (str) {
         return str ? str.toLowerCase().trim().replace(/\s/g, '-') : str
+    },
+    /**
+     * find index of insert position
+     * @param key
+     * @param arr Ordered Array
+     * @param field
+     * @returns {number}
+     */
+    findInsertIndex (key, arr, field) {
+        if (!key || !arr || typeof key !== 'string' || !(arr instanceof Array) || arr.length === 0) return -1
+        let lastKey = findInsertLastItem(key, arr, field, 0)
+        return arr.findIndex(item => {
+            return (field ? item[field] : item) === lastKey
+        })
     }
 }
 
+function findInsertLastItem (key, arr, field, keyIndex) {
+    if (typeof field === 'number' && typeof keyIndex === 'undefined') {
+        keyIndex = field
+        field = void 0
+    }
+
+    let target = key.toLowerCase()[keyIndex]
+    if (target) {
+        let tempTarget = null
+        let tempArr = arr.filter((item, i) => {
+            tempTarget = (field ? item[field] : item).toLowerCase()
+            return tempTarget[keyIndex] === target
+        })
+        if (tempArr.length > 0) {
+            keyIndex++
+            return findInsertLastItem(key, tempArr, field, keyIndex)
+        }
+    }
+    let lastItem = arr.pop()
+    return field ? lastItem[field] : lastItem
+}
+
+/**
+ * to double unit
+ * @param str
+ * @returns {*}
+ */
 function toDoubleUnit (str) {
     str = str + ''
     return str[1] ? str : ('0' + str)

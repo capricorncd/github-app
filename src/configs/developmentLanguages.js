@@ -581,7 +581,7 @@ function formatToObject () {
         return {
             column: tempColumn,
             text: item,
-            isChecked: false,
+            isChecked: DL_ANNUAL_LEAGUE_TABLE.includes(item),
             order: 0
         }
     })
@@ -620,6 +620,5 @@ export function getLangColor (lang) {
     if (!tempColor) {
         colorData[lang] = tempColor = getRandomColor()
     }
-    console.log(tempColor)
     return tempColor
 }
