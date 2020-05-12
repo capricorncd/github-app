@@ -4,9 +4,9 @@
  * Date: 2020-05-03 16:30
  */
 // annual league table
-const DL_ANNUAL_LEAGUE_TABLE = ['Java', 'C', 'Python', 'C++', 'C#', 'Visual Basic', 'JavaScript', 'PHP', 'SQL', 'R']
+export const DL_ANNUAL_LEAGUE_TABLE = ['Java', 'C', 'Python', 'C++', 'C#', 'Visual Basic', 'JavaScript', 'PHP', 'SQL', 'R']
 // all development languages
-const DEVELOPMENT_LANGUAGES = [
+export const DEVELOPMENT_LANGUAGES = [
     '1C Enterprise',
     '4D',
     'ABAP',
@@ -564,7 +564,11 @@ const DEVELOPMENT_LANGUAGES = [
     'Zimpl'
 ]
 
-function format () {
+/**
+ * format language array list to object
+ * @returns {{column: *, text: string, isChecked: boolean, order: number}[]}
+ */
+function formatToObject () {
     const initials = []
     let tempColumn, tempInitial
     return DEVELOPMENT_LANGUAGES.map(item => {
@@ -583,10 +587,39 @@ function format () {
     })
 }
 
-const originalDevLanguages = format()
+export const originalDevLanguages = formatToObject()
 
-export {
-    DEVELOPMENT_LANGUAGES,
-    originalDevLanguages,
-    DL_ANNUAL_LEAGUE_TABLE
+/**
+ * handle language tag colors
+ * @type {{}}
+ */
+let colorData = {}
+
+/**
+ * get random color
+ * @returns {string}
+ */
+function getRandomColor () {
+    return `rgb(${getRgbNumber()}, ${getRgbNumber()}, ${getRgbNumber()})`
+}
+
+/**
+ * get color rgb
+ * @returns {number}
+ */
+function getRgbNumber () {
+    return parseInt(255 * Math.random())
+}
+
+/**
+ * get language color
+ * @param lang
+ */
+export function getLangColor (lang) {
+    let tempColor = colorData[lang]
+    if (!tempColor) {
+        colorData[lang] = tempColor = getRandomColor()
+    }
+    console.log(tempColor)
+    return tempColor
 }

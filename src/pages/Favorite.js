@@ -57,6 +57,7 @@ class Favorite extends Component {
                     onDelete={() => this.deleteFavorite(data)}
                 />
             )}
+            showLanguageTag={true}
         />
     }
 

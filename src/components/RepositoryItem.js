@@ -8,10 +8,11 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import appUtils from '../utils'
 import Icons from './Icons'
 import { COLORS_GRAY, COLORS_PRIMARY, GLOBAL_BACKGROUND_COLOR, COLORS_WHITE, COLORS_GRAY_LIGHT } from '../configs/index'
+import { getLangColor } from '../configs/developmentLanguages'
 
 export default class RepositoryItem extends Component {
     render () {
-        const { data, onClick, rightTopButton } = this.props
+        const { data, onClick, rightTopButton, showLanguageTag } = this.props
         return (
             <TouchableOpacity
                 onPress={_ => onClick(onClick)}
@@ -30,9 +31,17 @@ export default class RepositoryItem extends Component {
                     </View>
                     {data.description ? <Text style={styles.description}>{data.description}</Text> : null}
                     <View style={styles.bottomWrapper}>
+                        {
+                            showLanguageTag ? <View style={[styles.bottomItem, { minWidth: '25%' }]}>
+                                <Text style={[styles.languageTag, { backgroundColor: getLangColor(data.language) }]}/>
+                                <Text style={styles.bottomText}>{data.language}</Text>
+                            </View> : null
+                        }
                         <View style={styles.bottomItem}>
                             <Icons name={'star'} style={{ marginRight: 2, color: COLORS_GRAY }}/>
                             <Text style={styles.bottomText}>{appUtils.formatCount(data.stargazers_count)}</Text>
+                        </View>
+                        <View style={styles.bottomItem}>
                             <Icons name={'fork'} style={{ marginLeft: 30, marginRight: 2, color: COLORS_GRAY }}/>
                             <Text style={styles.bottomText}>{appUtils.formatCount(data.forks)}</Text>
                         </View>
@@ -50,7 +59,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginLeft: 5,
         marginRight: 5,
-        marginVertical: 3,
+        marginVertical: 4,
         borderWidth: 0,
         borderRadius: 4,
         shadowColor: COLORS_GRAY_LIGHT,
@@ -85,21 +94,31 @@ const styles = StyleSheet.create({
         color: COLORS_GRAY
     },
     bottomWrapper: {
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 8
     },
     bottomItem: {
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: '20%'
+    },
+    languageTag: {
+        marginRight: 2,
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        overflow: 'hidden'
     },
     bottomText: {
         fontSize: 12,
-        color: COLORS_GRAY,
-        width: '25%'
+        color: COLORS_GRAY
     },
     updateDate: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
         fontSize: 12,
         color: COLORS_GRAY
     }
