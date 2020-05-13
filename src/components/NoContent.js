@@ -8,12 +8,16 @@ import { View, Text, StyleSheet } from 'react-native'
 import { COLORS_GRAY_LIGHT, GLOBAL_BACKGROUND_COLOR } from '../configs'
 import Icons from './Icons'
 
+const defaultContent = 'No Content'
+
 export default class NoContent extends Component {
     render () {
+        const { content = defaultContent, children } = this.props
         return (
             <View style={styles.wrapper}>
                 <Icons name={'cloudo'} style={{ color: COLORS_GRAY_LIGHT, fontSize: 42 }}/>
-                <Text style={{ color: COLORS_GRAY_LIGHT }}>No Content</Text>
+                <Text style={{ color: COLORS_GRAY_LIGHT }}>{content}</Text>
+                {children}
             </View>
         )
     }

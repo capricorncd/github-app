@@ -4,6 +4,7 @@
  * Date: 2020-05-01 23:39
  */
 import React, { Component } from 'react'
+import { Button } from 'react-native'
 import { connect } from 'react-redux'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import RepositoryItemList from '../components/RepositoryItemList'
@@ -12,6 +13,7 @@ import { DEV_LANGUAGES_STORAGE_KEY, FAVORITE_STORAGE_KEY } from '../configs'
 import { DL_ANNUAL_LEAGUE_TABLE } from '../configs/developmentLanguages'
 import actions from '../stores/actions/index'
 import appUtils from '../utils'
+import NoContent from '../components/NoContent'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -35,16 +37,16 @@ class Home extends Component {
     }
 
     initDevLanguages () {
+        const { updateDevLangKeys } = this.props
         storeUtils.get(DEV_LANGUAGES_STORAGE_KEY).then(res => {
             let cacheList = res.filter(item => item.isChecked).sort((a, b) => a.order - b.order).map(item => item.text)
-            this.setState({
-                keys: cacheList.length > 0 ? cacheList : DL_ANNUAL_LEAGUE_TABLE
-            })
+            // use updateDevLangKeys,
+            // Convenient for "static getDerivedStateFromProps()" get props.keys
+            updateDevLangKeys(cacheList.length > 0 ? cacheList : DL_ANNUAL_LEAGUE_TABLE)
         }).catch(err => {
             console.log('Error', err)
-            this.setState({
-                keys: DL_ANNUAL_LEAGUE_TABLE
-            })
+            // Convenient for "static getDerivedStateFromProps()" get props.keys
+            updateDevLangKeys(DL_ANNUAL_LEAGUE_TABLE)
         })
     }
 
@@ -63,6 +65,7 @@ class Home extends Component {
     }
 
     render () {
+        const { navigation } = this.props
         return (
             this.state.keys.length > 0
                 ? <Tab.Navigator
@@ -74,7 +77,14 @@ class Home extends Component {
                 >
                     {this.createTabScreen(this.state.keys)}
                 </Tab.Navigator>
-                : null
+                : <NoContent
+                    content={'No development language subscribed'}
+                >
+                    <Button
+                        title={'Select Languages'}
+                        onPress={() => navigation.navigate('DLSelection')}
+                    />
+                </NoContent>
         )
     }
 }
@@ -85,7 +95,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    updateFavoriteItems: actions.updateFavoriteItems
+    updateFavoriteItems: actions.updateFavoriteItems,
+    updateDevLangKeys: actions.updateDevLangKeys
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

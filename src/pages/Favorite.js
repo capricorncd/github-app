@@ -4,14 +4,15 @@
  * Date: 2020-05-09 17:22
  */
 import React, { Component } from 'react'
-import { View, DeviceEventEmitter } from 'react-native'
+import { View } from 'react-native'
 import { connect } from 'react-redux'
-import { FAVORITE_STORAGE_CHANGED, FAVORITE_STORAGE_KEY, GLOBAL_BACKGROUND_COLOR } from '../configs'
+import { FAVORITE_STORAGE_KEY, GLOBAL_BACKGROUND_COLOR } from '../configs'
 import FlatListComponent from '../components/FlatListComponent'
 import RepositoryItem from '../components/RepositoryItem'
 import storeUtils from '../stores/storeUtils'
 import NoContent from '../components/NoContent'
 import DeleteButton from '../components/DeleteButton'
+import actions from '../stores/actions'
 
 class Favorite extends Component {
     constructor (props) {
@@ -35,7 +36,7 @@ class Favorite extends Component {
     componentWillUnmount () {
         if (!this.isChanged) return
         storeUtils.set(FAVORITE_STORAGE_KEY, this.state.favoriteItems).catch(console.log)
-        DeviceEventEmitter.emit(FAVORITE_STORAGE_CHANGED, this.state.favoriteItems)
+        this.props.updateFavoriteItems(this.state.favoriteItems)
     }
 
     renderItem (data) {
@@ -93,7 +94,12 @@ class Favorite extends Component {
 }
 
 const mapStateToProps = state => ({
-    theme: state.theme
+    theme: state.theme,
+    favoriteItems: state.favorite.items
 })
 
-export default connect(mapStateToProps)(Favorite)
+const mapDispatchToProps = {
+    updateFavoriteItems: actions.updateFavoriteItems
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favorite)

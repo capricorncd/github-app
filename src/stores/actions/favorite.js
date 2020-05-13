@@ -7,7 +7,7 @@ import types from '../types'
 
 const updateFavoriteItems = (items) => {
     return {
-        type: types.SELECTED_DEV_LANGUAGES_CHANGE,
+        type: types.FAVORITE_CHANGE,
         items
     }
 }

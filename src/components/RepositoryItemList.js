@@ -4,12 +4,11 @@
  * Date: 2020-05-02 17:29
  */
 import React, { Component } from 'react'
-import { DeviceEventEmitter, View } from 'react-native'
+import { View } from 'react-native'
 import {
     GLOBAL_BACKGROUND_COLOR,
     GITHUB_URL_API,
-    FAVORITE_STORAGE_KEY,
-    FAVORITE_STORAGE_CHANGED
+    FAVORITE_STORAGE_KEY
 } from '../configs/index'
 import appUtils from '../utils'
 import RepositoryItem from './RepositoryItem'
@@ -29,29 +28,19 @@ class RepositoryItemList extends Component {
             list: [],
             page: 1
         }
-        this.handleFavoriteChange = this._handleFavoriteChange.bind(this)
     }
 
     componentDidMount () {
         this.getList()
-        DeviceEventEmitter.addListener(FAVORITE_STORAGE_CHANGED, this.handleFavoriteChange)
     }
 
-    componentWillUnmount () {
-        DeviceEventEmitter.removeListener(FAVORITE_STORAGE_CHANGED, this.handleFavoriteChange)
-    }
-
-    _handleFavoriteChange (list) {
-        if (list === null) {
-            // changed from search result list
-            list = this.props.favoriteItems
-        }
-        this.setState({
-            list: this.state.list.map(item => {
-                item.isFavorite = list.some(fav => fav.id === item.id)
+    static getDerivedStateFromProps (props, state) {
+        return {
+            list: state.list.map(item => {
+                item.isFavorite = props.favoriteItems.some(fav => fav.id === item.id)
                 return item
             })
-        })
+        }
     }
 
     getList (isLoadMore) {
@@ -151,11 +140,12 @@ export function formatItemData (res, oldList, favoriteItems = []) {
 
 /**
  * handle favorite change
- * @param item change item
+ * @param data change item
  * @param oldList old favorite list
  * @param updateFavoriteItems
  */
-export function handleFavoriteChange (item, oldList, updateFavoriteItems) {
+export function handleFavoriteChange (data, oldList, updateFavoriteItems) {
+    let item = { ...data }
     let index = oldList.findIndex(oldItem => item.id === oldItem.id)
     if (item.isFavorite) {
         if (index > -1) {
@@ -166,8 +156,10 @@ export function handleFavoriteChange (item, oldList, updateFavoriteItems) {
     } else if (index > -1) {
         oldList.splice(index, 1)
     }
-    storeUtils.set(FAVORITE_STORAGE_KEY, oldList).catch(console.log)
-    updateFavoriteItems(oldList)
+    if (updateFavoriteItems) {
+        storeUtils.set(FAVORITE_STORAGE_KEY, oldList).catch(console.log)
+        updateFavoriteItems(oldList)
+    }
 }
 
 const mapStateToProps = state => ({
