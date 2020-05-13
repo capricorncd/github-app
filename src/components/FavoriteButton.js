@@ -4,7 +4,7 @@
  * Date: 2020-05-09 15:34
  */
 import React, { Component } from 'react'
-import { Alert, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import Icons from './Icons'
 import { COLORS_PRIMARY } from '../configs'
 
@@ -27,7 +27,7 @@ export default class FavoriteButton extends Component {
     }
 
     static getDerivedStateFromProps (props, state) {
-        if (state.isFavorite !== props.isFavorite) {
+        if (state.isFavorite !== props.data.isFavorite) {
             return {
                 isFavorite: props.data.isFavorite
             }
