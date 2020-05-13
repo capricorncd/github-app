@@ -8,66 +8,17 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const ICONS = {
-    star: {
-        name: 'star'
-    },
-    staro: {
-        name: 'staro'
-    },
-    fork: {
-        Icon: MaterialCommunityIcons,
-        name: 'source-fork'
-    },
-    left: {
-        name: 'left'
-    },
-    right: {
-        name: 'right'
-    },
     bars: {
         name: 'bars'
     },
-    github: {
-        name: 'github'
-    },
-    weChat: {
-        name: 'wechat'
-    },
-    search: {
-        name: 'search1'
-    },
     bili: {
-        name: 'playcircleo'
+        name: 'videocamera'
     },
-    mail: {
-        name: 'mail'
-    },
-    feedback: {
-        name: 'message1'
-    },
-    source: {
-        name: 'folderopen'
-    },
-    design: {
-        name: 'paperclip'
-    },
-    selection: {
-        name: 'form'
-    },
-    sort: {
-        name: 'profile'
-    },
-    setting: {
-        name: 'setting'
-    },
-    meh: {
-        name: 'meh'
+    camera: {
+        name: 'camerao'
     },
     close: {
         name: 'close'
-    },
-    trending: {
-        name: 'areachart'
     },
     cloudo: {
         name: 'cloudo'
@@ -75,6 +26,58 @@ const ICONS = {
     delete: {
         Icon: MaterialCommunityIcons,
         name: 'delete-circle-outline'
+    },
+    design: {
+        name: 'picture'
+    },
+    feedback: {
+        name: 'message1'
+    },
+    fork: {
+        Icon: MaterialCommunityIcons,
+        name: 'source-fork'
+    },
+    github: {
+        name: 'github'
+    },
+    left: {
+        name: 'left'
+    },
+    mail: {
+        name: 'mail'
+    },
+    meh: {
+        name: 'meh'
+    },
+    right: {
+        name: 'right'
+    },
+    search: {
+        name: 'search1'
+    },
+    selection: {
+        name: 'form'
+    },
+    setting: {
+        name: 'setting'
+    },
+    source: {
+        name: 'folderopen'
+    },
+    sort: {
+        name: 'profile'
+    },
+    star: {
+        name: 'star'
+    },
+    staro: {
+        name: 'staro'
+    },
+    trending: {
+        name: 'areachart'
+    },
+    weChat: {
+        name: 'wechat'
     }
 }
 

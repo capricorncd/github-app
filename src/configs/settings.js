@@ -44,6 +44,12 @@ const SETTINGS_ITEMS = [
         url: 'https://yagiza.zcool.com.cn/'
     },
     {
+        headerTitle: 'My Photographic works',
+        text: 'Photographic works',
+        name: 'camera',
+        url: 'https://capricorncd.zcool.com.cn'
+    },
+    {
         headerTitle: 'My Bilibili',
         text: 'Bilibili',
         name: 'bili',
