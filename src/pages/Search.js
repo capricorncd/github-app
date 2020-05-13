@@ -63,7 +63,7 @@ class Search extends Component {
                 // join selected development languages to storage
                 storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, this.devLanguages).catch(console.log)
                 // update home tab keys
-                this.props.changeDevLangKeys(this.devLanguages
+                this.props.updateDevLangKeys(this.devLanguages
                     .filter(item => item.isChecked)
                     .sort((a, b) => a.order - b.order)
                     .map(item => item.text)
@@ -115,7 +115,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-    changeDevLangKeys: actions.changeDevLangKeys
+    updateDevLangKeys: actions.updateDevLangKeys
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search)

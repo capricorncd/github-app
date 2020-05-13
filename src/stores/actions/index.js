@@ -4,11 +4,11 @@
  * Date: 2020-05-02 15:56
  */
 import { changeTheme } from './theme'
-import { changeDevLangKeys } from './devLanguages'
+import { updateDevLangKeys } from './devLanguages'
 import { updateFavoriteItems } from './favorite'
 
 export default {
     changeTheme,
-    changeDevLangKeys,
+    updateDevLangKeys,
     updateFavoriteItems
 }

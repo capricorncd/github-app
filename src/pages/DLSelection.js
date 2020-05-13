@@ -100,7 +100,7 @@ class DLSelection extends Component {
             .sort((a, b) => a.order - b.order)
             .map(item => item.text)
         if (!appUtils.equals(updateKeys, this.originalSelectedKeys)) {
-            this.props.changeDevLangKeys(updateKeys)
+            this.props.updateDevLangKeys(updateKeys)
             storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, this.devLanguages).catch(console.log)
         }
     }
@@ -121,7 +121,7 @@ class DLSelection extends Component {
 }
 
 const mapDispatchToProps = {
-    changeDevLangKeys: actions.changeDevLangKeys
+    updateDevLangKeys: actions.updateDevLangKeys
 }
 
 export default connect(null, mapDispatchToProps)(DLSelection)

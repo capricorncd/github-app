@@ -11,6 +11,7 @@ import storeUtils from '../stores/storeUtils'
 import { DEV_LANGUAGES_STORAGE_KEY, FAVORITE_STORAGE_KEY } from '../configs'
 import { DL_ANNUAL_LEAGUE_TABLE } from '../configs/developmentLanguages'
 import actions from '../stores/actions/index'
+import appUtils from '../utils'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -18,22 +19,31 @@ class Home extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            devLanguages: []
+            keys: []
         }
         this.initFavorites()
         this.initDevLanguages()
+    }
+
+    static getDerivedStateFromProps (props, state) {
+        if (props.keys && !appUtils.equals(props.keys, state.keys)) {
+            return {
+                keys: props.keys
+            }
+        }
+        return null
     }
 
     initDevLanguages () {
         storeUtils.get(DEV_LANGUAGES_STORAGE_KEY).then(res => {
             let cacheList = res.filter(item => item.isChecked).sort((a, b) => a.order - b.order).map(item => item.text)
             this.setState({
-                devLanguages: cacheList.length > 0 ? cacheList : DL_ANNUAL_LEAGUE_TABLE
+                keys: cacheList.length > 0 ? cacheList : DL_ANNUAL_LEAGUE_TABLE
             })
         }).catch(err => {
             console.log('Error', err)
             this.setState({
-                devLanguages: DL_ANNUAL_LEAGUE_TABLE
+                keys: DL_ANNUAL_LEAGUE_TABLE
             })
         })
     }
@@ -53,10 +63,8 @@ class Home extends Component {
     }
 
     render () {
-        const { keys } = this.props
-        let list = keys && keys.length > 0 ? keys : this.state.devLanguages
         return (
-            list.length > 0
+            this.state.keys.length > 0
                 ? <Tab.Navigator
                     tabBarOptions={{
                         scrollEnabled: true,
@@ -64,7 +72,7 @@ class Home extends Component {
                     }}
                     lazy={true}
                 >
-                    {this.createTabScreen(list)}
+                    {this.createTabScreen(this.state.keys)}
                 </Tab.Navigator>
                 : null
         )

@@ -39,7 +39,7 @@ class DLSorting extends Component {
             })
             storeUtils.set(DEV_LANGUAGES_STORAGE_KEY, devLanguages).catch(console.log)
             // update to Home tabs
-            this.props.changeDevLangKeys(this.state.keys)
+            this.props.updateDevLangKeys(this.state.keys)
         }
     }
 
@@ -109,7 +109,7 @@ class RowComponent extends React.Component {
 }
 
 const mapDispatchToProps = {
-    changeDevLangKeys: actions.changeDevLangKeys
+    updateDevLangKeys: actions.updateDevLangKeys
 }
 
 export default connect(null, mapDispatchToProps)(DLSorting)

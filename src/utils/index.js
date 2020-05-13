@@ -140,13 +140,20 @@ const appUtils = {
      * array equals
      * @param arr1
      * @param arr2
+     * @param field
      * @returns {boolean}
      */
-    equals (arr1, arr2) {
+    equals (arr1, arr2, field) {
         let len = arr1.length
         if (arr2.length !== len) return false
-        for (let i = 0; i < len; i++) {
-            if (arr1[i] !== arr2[i]) return false
+        if (field) {
+            for (let i = 0; i < len; i++) {
+                if (arr1[i][field] !== arr2[i][field]) return false
+            }
+        } else {
+            for (let i = 0; i < len; i++) {
+                if (arr1[i] !== arr2[i]) return false
+            }
         }
         return true
     },

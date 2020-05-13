@@ -5,7 +5,7 @@
  */
 import types from '../types'
 
-const changeDevLangKeys = (keys) => {
+const updateDevLangKeys = (keys) => {
     return {
         type: types.SELECTED_DEV_LANGUAGES_CHANGE,
         keys
@@ -13,5 +13,5 @@ const changeDevLangKeys = (keys) => {
 }
 
 export {
-    changeDevLangKeys
+    updateDevLangKeys
 }
