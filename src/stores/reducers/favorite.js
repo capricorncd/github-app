@@ -6,7 +6,7 @@
 import types from '../types'
 
 const defaultState = {
-    list: []
+    items: []
 }
 
 const onAction = (state = defaultState, action) => {
@@ -14,7 +14,7 @@ const onAction = (state = defaultState, action) => {
         case types.FAVORITE_CHANGE:
             return {
                 ...state,
-                list: action.list
+                items: action.items
             }
         default:
             return state

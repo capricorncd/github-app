@@ -8,7 +8,6 @@ import { DeviceEventEmitter, View } from 'react-native'
 import {
     GLOBAL_BACKGROUND_COLOR,
     GITHUB_URL_API,
-    FAVORITE_STORAGE_KEY,
     FAVORITE_STORAGE_CHANGED
 } from '../configs/index'
 import appUtils from '../utils'
@@ -17,6 +16,7 @@ import FlatListComponent from './FlatListComponent'
 import { connect } from 'react-redux'
 import { formatItemData, handleFavoriteChange } from './RepositoryItemList'
 import FavoriteButton from './FavoriteButton'
+import actions from '../stores/actions'
 
 class SearchResultList extends Component {
     constructor (props) {
@@ -60,7 +60,7 @@ class SearchResultList extends Component {
                     return
                 }
                 if (res.items) {
-                    let list = formatItemData(res, oldList)
+                    let list = formatItemData(res, oldList, this.props.favoriteItems)
                     this.setState({
                         page: ++page,
                         list: isLoadMore ? oldList.concat(list) : list
@@ -73,7 +73,7 @@ class SearchResultList extends Component {
     }
 
     renderItem (data) {
-        const { navigation: { navigate } } = this.props
+        const { navigation: { navigate }, favoriteItems, updateFavoriteItems } = this.props
         return <RepositoryItem
             data={data}
             onClick={_ => {
@@ -86,7 +86,7 @@ class SearchResultList extends Component {
                     onChange={flag => {
                         this.isFavoriteChanged = true
                         data.isFavorite = flag
-                        handleFavoriteChange(data)
+                        handleFavoriteChange(data, favoriteItems, updateFavoriteItems)
                     }}/>
             )}
         />
@@ -121,7 +121,12 @@ class SearchResultList extends Component {
 }
 
 const mapStateToProps = state => ({
-    theme: state.theme
+    theme: state.theme,
+    favoriteItems: state.favorite.items
 })
 
-export default connect(mapStateToProps)(SearchResultList)
+const mapDispatchToProps = {
+    updateFavoriteItems: actions.updateFavoriteItems
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResultList)

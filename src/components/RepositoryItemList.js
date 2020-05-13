@@ -4,7 +4,7 @@
  * Date: 2020-05-02 17:29
  */
 import React, { Component } from 'react'
-import { DeviceEventEmitter, View, StyleSheet } from 'react-native'
+import { DeviceEventEmitter, View } from 'react-native'
 import {
     GLOBAL_BACKGROUND_COLOR,
     GITHUB_URL_API,
@@ -17,6 +17,7 @@ import FlatListComponent from './FlatListComponent'
 import { connect } from 'react-redux'
 import storeUtils from '../stores/storeUtils'
 import FavoriteButton from './FavoriteButton'
+import actions from '../stores/actions'
 
 class RepositoryItemList extends Component {
     constructor (props) {
@@ -43,10 +44,7 @@ class RepositoryItemList extends Component {
     _handleFavoriteChange (list) {
         if (list === null) {
             // changed from search result list
-            list = global.favoriteItems
-        } else {
-            // changed from settings favorite
-            global.favoriteItems = list
+            list = this.props.favoriteItems
         }
         this.setState({
             list: this.state.list.map(item => {
@@ -63,7 +61,7 @@ class RepositoryItemList extends Component {
             this.isKeywordChanged = false
             appUtils.fetch(GITHUB_URL_API, { q: this.keyword, sort: 'star', page }).then(res => {
                 if (res.items) {
-                    let list = formatItemData(res, oldList, global.favoriteItems)
+                    let list = formatItemData(res, oldList, this.props.favoriteItems)
                     this.setState({
                         page: ++page,
                         list: isLoadMore ? oldList.concat(list) : list
@@ -76,7 +74,7 @@ class RepositoryItemList extends Component {
     }
 
     renderItem (data) {
-        const { navigation: { navigate } } = this.props
+        const { navigation: { navigate }, favoriteItems, updateFavoriteItems } = this.props
         return <RepositoryItem
             data={data}
             onClick={_ => {
@@ -88,7 +86,7 @@ class RepositoryItemList extends Component {
                     isFavorite={data.isFavorite}
                     onChange={flag => {
                         data.isFavorite = flag
-                        handleFavoriteChange(data)
+                        handleFavoriteChange(data, favoriteItems, updateFavoriteItems)
                     }}/>
             )}
         />
@@ -151,8 +149,13 @@ export function formatItemData (res, oldList, favoriteItems = []) {
     return list
 }
 
-export function handleFavoriteChange (item) {
-    let oldList = global.favoriteItems
+/**
+ * handle favorite change
+ * @param item change item
+ * @param oldList old favorite list
+ * @param updateFavoriteItems
+ */
+export function handleFavoriteChange (item, oldList, updateFavoriteItems) {
     let index = oldList.findIndex(oldItem => item.id === oldItem.id)
     if (item.isFavorite) {
         if (index > -1) {
@@ -164,11 +167,16 @@ export function handleFavoriteChange (item) {
         oldList.splice(index, 1)
     }
     storeUtils.set(FAVORITE_STORAGE_KEY, oldList).catch(console.log)
-    global.favoriteItems = oldList
+    updateFavoriteItems(oldList)
 }
 
 const mapStateToProps = state => ({
-    theme: state.theme
+    theme: state.theme,
+    favoriteItems: state.favorite.items
 })
 
-export default connect(mapStateToProps)(RepositoryItemList)
+const mapDispatchToProps = {
+    updateFavoriteItems: actions.updateFavoriteItems
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RepositoryItemList)

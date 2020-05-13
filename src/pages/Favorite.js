@@ -28,7 +28,6 @@ class Favorite extends Component {
             this.setState({
                 favoriteItems: res
             })
-            this.isChanged = true
         }).catch(err => {
             console.log(err)
         })
@@ -69,6 +68,7 @@ class Favorite extends Component {
             this.setState({
                 favoriteItems: oldList
             })
+            this.isChanged = true
         }
     }
 
@@ -94,12 +94,7 @@ class Favorite extends Component {
 }
 
 const mapStateToProps = state => ({
-    favorite: state.favorite,
     theme: state.theme
 })
 
-const mapDispatchToProps = {
-    changeFavorites: actions.changeFavorites
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Favorite)
+export default connect(mapStateToProps)(Favorite)

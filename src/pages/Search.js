@@ -4,7 +4,6 @@
  * Date: 2020-05-05 21:35
  */
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import SearchBar, { SEARCH_WRAPPER_HEIGHT } from '../components/SearchBar'
 import SearchResultList from '../components/SearchResultList'
@@ -29,12 +28,6 @@ class Search extends Component {
     componentWillUnmount () {
         if (this.selectedKeywords.length > 0 && this.devLanguages) {
             let hasUpdate = false
-            // this.devLanguages.forEach((item, i) => {
-            //     if (this.selectedKeywords.includes(item.text) && !item.isChecked) {
-            //         item.isChecked = true
-            //         hasUpdate = true
-            //     }
-            // })
             let tempIndex = -1
             this.selectedKeywords.forEach(keyword => {
                 tempIndex = this.devLanguages.findIndex(item => item.text.toLowerCase() === keyword.toLowerCase())

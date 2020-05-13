@@ -5,13 +5,13 @@
  */
 import types from '../types'
 
-const changeFavorites = (list) => {
+const updateFavoriteItems = (items) => {
     return {
         type: types.SELECTED_DEV_LANGUAGES_CHANGE,
-        list
+        items
     }
 }
 
 export {
-    changeFavorites
+    updateFavoriteItems
 }

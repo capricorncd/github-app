@@ -8,8 +8,9 @@ import { connect } from 'react-redux'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import RepositoryItemList from '../components/RepositoryItemList'
 import storeUtils from '../stores/storeUtils'
-import { DEV_LANGUAGES_STORAGE_KEY, FAVORITE_INIT_COMPLETED, FAVORITE_STORAGE_KEY } from '../configs'
+import { DEV_LANGUAGES_STORAGE_KEY, FAVORITE_STORAGE_KEY } from '../configs'
 import { DL_ANNUAL_LEAGUE_TABLE } from '../configs/developmentLanguages'
+import actions from '../stores/actions/index'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -39,7 +40,7 @@ class Home extends Component {
 
     initFavorites () {
         storeUtils.get(FAVORITE_STORAGE_KEY).then(res => {
-            global.favoriteItems = res
+            this.props.updateFavoriteItems(res)
         }).catch(err => {
             console.log(err)
         })
@@ -71,7 +72,12 @@ class Home extends Component {
 }
 
 const mapStateToProps = state => ({
-    keys: state.devLanguages.keys
+    keys: state.devLanguages.keys,
+    favoriteItems: state.favorite.items
 })
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = {
+    updateFavoriteItems: actions.updateFavoriteItems
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
