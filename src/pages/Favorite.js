@@ -6,7 +6,6 @@
 import React, { Component } from 'react'
 import { View, DeviceEventEmitter } from 'react-native'
 import { connect } from 'react-redux'
-import actions from '../stores/actions'
 import { FAVORITE_STORAGE_CHANGED, FAVORITE_STORAGE_KEY, GLOBAL_BACKGROUND_COLOR } from '../configs'
 import FlatListComponent from '../components/FlatListComponent'
 import RepositoryItem from '../components/RepositoryItem'
