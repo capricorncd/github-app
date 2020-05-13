@@ -6,6 +6,8 @@
 import AsyncStorage from '@react-native-community/async-storage'
 import { STORAGE_CACHE_MILLISECOND } from '../configs/index'
 
+const CACHE_TIME_LIMIT = 'cacheTimeLimit'
+
 const storeUtils = {
     /**
      * set local storage data
@@ -22,7 +24,7 @@ const storeUtils = {
             if (hasTimeLimit) {
                 data = {
                     data,
-                    cacheTimeLimit: +new Date()
+                    [CACHE_TIME_LIMIT]: +new Date()
                 }
             }
             AsyncStorage.setItem(key, JSON.stringify(data)).then(resolve).catch(reject)
@@ -75,8 +77,8 @@ const storeUtils = {
  */
 function getCacheData (obj) {
     // has cache time limit
-    if (obj && obj.hasOwnProperty('cacheTimeLimit')) {
-        return +new Date() - obj.cacheTimeLimit > STORAGE_CACHE_MILLISECOND
+    if (obj && obj.hasOwnProperty(CACHE_TIME_LIMIT)) {
+        return +new Date() - obj[CACHE_TIME_LIMIT] > STORAGE_CACHE_MILLISECOND
             ? null : obj.data
     }
     return obj
