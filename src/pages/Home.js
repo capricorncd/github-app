@@ -28,7 +28,6 @@ class Home extends Component {
     }
 
     static getDerivedStateFromProps (props, state) {
-        console.log('getDerivedStateFromProps', props, state)
         if (props.keys && !appUtils.equals(props.keys, state.keys)) {
             return {
                 keys: props.keys
