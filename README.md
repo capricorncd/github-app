@@ -39,8 +39,12 @@ npm run bundle-ios
 2.Xcode: 
 
     2.1 Add `js bundle files` to `GithubApp` project
+    
+    2.2 Xcode –> Product –> Scheme –> Edit Scheme…
+    
+        info -> Build Configuration: Release
 
-    2.2 Build
+    2.3 Build
     
 ### Build android
 
