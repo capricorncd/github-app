@@ -4,7 +4,7 @@
  * Date: 2020-05-01 23:39
  */
 import React, { Component } from 'react'
-import { Button } from 'react-native'
+import { View, Button } from 'react-native'
 import { connect } from 'react-redux'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import RepositoryItemList from '../components/RepositoryItemList'
@@ -28,6 +28,7 @@ class Home extends Component {
     }
 
     static getDerivedStateFromProps (props, state) {
+        console.log('getDerivedStateFromProps', props, state)
         if (props.keys && !appUtils.equals(props.keys, state.keys)) {
             return {
                 keys: props.keys
@@ -80,10 +81,12 @@ class Home extends Component {
                 : <NoContent
                     content={'No development language subscribed'}
                 >
-                    <Button
-                        title={'Select Languages'}
-                        onPress={() => navigation.navigate('DLSelection')}
-                    />
+                    <View style={{ marginTop: 50 }}>
+                        <Button
+                            title={'Select Languages'}
+                            onPress={() => navigation.navigate('DLSelection')}
+                        />
+                    </View>
                 </NoContent>
         )
     }
