@@ -44,22 +44,10 @@ const SETTINGS_ITEMS = [
         url: 'https://yagiza.zcool.com.cn/'
     },
     {
-        headerTitle: 'My Photographic works',
-        text: 'Photographic works',
-        name: 'camera',
-        url: 'https://capricorncd.zcool.com.cn'
-    },
-    {
-        headerTitle: 'My Bilibili',
-        text: 'Bilibili',
-        name: 'bili',
-        url: 'https://space.bilibili.com/449971269'
-    },
-    {
         headerTitle: 'Music Card Mini Program(H5)',
         text: 'Music Card Mini Program(H5)',
         name: 'meh',
-        url: 'https://capricorncd.github.io/react-demo/dist/mc/index.html'
+        url: 'https://capricorncd.github.io/demos/music-card'
     },
     {
         text: 'WeChat',
@@ -76,7 +64,7 @@ const SETTINGS_ITEMS = [
     {
         text: 'Feedback',
         name: 'feedback',
-        mail: 'capricorncd@qq.com'
+        mail: 'kaneoki1984@gmail.com'
     }
 ]
 
