@@ -1,4 +1,4 @@
-# GitHub App / GitHub 应用
+# GitHub App
 
 [English](#english) | [中文](#chinese)
 
